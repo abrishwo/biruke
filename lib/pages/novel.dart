@@ -1023,13 +1023,11 @@ class NovelState extends State<Novel> {
                     return AnimatedSmoothIndicator(
                       count: (sectionBannerList?.length ?? 0),
                       activeIndex: sectionDataProvider.cBannerIndex ?? 0,
-                      effect: const ScrollingDotsEffect(
-                        spacing: 8,
-                        radius: 4,
-                        activeDotColor: primaryDark,
-                        dotColor: white,
+                      effect: const WormEffect(
                         dotHeight: 8,
                         dotWidth: 8,
+                        activeDotColor: primaryDark,
+                        dotColor: white,
                       ),
                     );
                   },
@@ -1522,7 +1520,7 @@ class NovelState extends State<Novel> {
       height: (sectionDataList?.length ?? 0) > 2
           ? Dimens.heightTrendingNovel
           : Dimens.heightTrendingNovel / 2,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 2 ? 2 : 1,
         itemCount: (sectionDataList?.length ?? 0),
         shrinkWrap: true,
@@ -1806,7 +1804,7 @@ class NovelState extends State<Novel> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightLangGen,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         crossAxisCount: 2,
@@ -2040,7 +2038,7 @@ class NovelState extends State<Novel> {
           : (sectionDataList?.length) == 2
               ? Dimens.heightMiniSeries / 2
               : Dimens.heightMiniSeries,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 4
             ? 4
             : (sectionDataList?.length ?? 0),
@@ -2146,7 +2144,7 @@ class NovelState extends State<Novel> {
     return Container(
       color: darkappbgcolor,
       width: MediaQuery.of(context).size.width,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         padding: const EdgeInsets.all(15),
         crossAxisCount: 2,
         itemCount:
@@ -2246,7 +2244,7 @@ class NovelState extends State<Novel> {
       height: (sectionDataList?.length ?? 0) == 1
           ? Dimens.heightcontemporyRomance / 2
           : Dimens.heightcontemporyRomance,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 2
             ? 2
             : (sectionDataList?.length ?? 0),
@@ -2433,7 +2431,7 @@ class NovelState extends State<Novel> {
       color: darkappbgcolor,
       width: MediaQuery.of(context).size.width,
       height: Dimens.heightbestSellingStries,
-      child: AlignedGridView.count(
+      child: StaggeredGridView.count(
         crossAxisCount: 2,
         itemCount: (sectionDataList?.length ?? 0) > 4
             ? 4

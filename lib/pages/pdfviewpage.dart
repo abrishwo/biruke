@@ -127,6 +127,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
           widget.pdfLink.toString(),
           controller: _pdfViewerController,
           key: _pdfViewerKey,
+          pageLayoutMode: PdfPageLayoutMode.single,
           onPageChanged: (details) {
             _pdfViewerController.pageNumber;
             debugPrint("Current Page nO -- ${_pdfViewerController.pageNumber}");

@@ -6,7 +6,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dtpocketfm/main.dart';
 import 'package:dtpocketfm/pages/authorprofile.dart';
 import 'package:dtpocketfm/pages/pdfviewpage.dart';
+import 'package:dtpocketfm/utils/musicmanager.dart';
+import 'package:dtpocketfm/model/novelchapterlistmodel.dart' as novel;
 import 'package:dtpocketfm/provider/novelsectiondataprovider.dart';
+import 'package:dtpocketfm/provider/showdetailsprovider.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
 import 'package:dtpocketfm/provider/subscriptionprovider.dart';
 import 'package:dtpocketfm/subscription/allpayment.dart';
@@ -359,6 +362,57 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
     ]);
   }
 
+  /* PlayAudio Player */
+  Future<void> playAudio({
+    required String playingType,
+    required String episodeid,
+    required String contentid,
+    String? podcastimage,
+    String? contentUserid,
+    required int position,
+    required List<novel.Result>? sectionBannerList,
+    dynamic playlistImages,
+    required String contentName,
+    required String? isBuy,
+    required int? isAudioPaid,
+  }) async {
+    debugPrint("playingType =====>>>>>> ? $playingType");
+    debugPrint("episodeid =====>>>>>> ? $episodeid");
+    debugPrint("contentid =====>>>>>> ? $contentid");
+    debugPrint("podcastimage =====>>>>>> ? $podcastimage");
+    debugPrint("contentUserid =====>>>>>> ? $contentUserid");
+    debugPrint("position =====>>>>>> ? $position");
+    debugPrint(
+        "sectionBannerList =====>>>>>> ? ${jsonEncode(sectionBannerList)}");
+    debugPrint("playlistImages =====>>>>>> ? $playlistImages");
+    debugPrint("contentName =====>>>>>> ? $contentName");
+
+    /* Only Music Direct Play*/
+
+    if (Constant.userID != null) {
+      musicManager.setInitialMusic(
+          position,
+          playingType,
+          sectionBannerList,
+          contentid,
+          addView(playingType, episodeid, contentid),
+          false,
+          0,
+          isBuy ?? "",
+          isAudioPaid ?? 0,
+          "audioBook",
+          "0");
+    } else {
+      Utils.openLogin(context: context, isHome: false, isReplace: false);
+    }
+  }
+
+  addView(contentType, episodeid, contentId) async {
+    final audiototalplayprovider =
+        Provider.of<ShowDetailsProvider>(context, listen: false);
+    await audiototalplayprovider.getAddContentPlay(1, episodeid, 1, contentId);
+  }
+
   Widget _buildUIWithAppBar() {
     return (novelDetailsProvider.loading)
         ? SingleChildScrollView(
@@ -488,6 +542,105 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
                             ],
                           ),
                         ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      openBottomSheet(
+                        0,
+                        novelDetailsProvider
+                            .contentdetailsModel.result?[0].isBookCoin,
+                        novelDetailsProvider
+                            .contentdetailsModel.result?[0].title,
+                        0,
+                        novelDetailsProvider.contentdetailsModel.result?[0].id,
+                      );
+                    },
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        minHeight: 0,
+                        maxHeight: 45,
+                        minWidth: 0,
+                        // maxWidth: 120,
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryDark,
+                        borderRadius: BorderRadius.circular(5),
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: MyText(
+                        color: white,
+                        maxline: 1,
+                        overflow: TextOverflow.ellipsis,
+                        multilanguage: true,
+                        text: "buy_now",
+                        textalign: TextAlign.center,
+                        fontsizeNormal: 16,
+                        fontsizeWeb: 18,
+                        fontweight: FontWeight.w700,
+                        fontstyle: FontStyle.normal,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      playAudio(
+                        playingType: novelDetailsProvider.novelchaptermodel.result?[0].bookType.toString() ?? "",
+                        episodeid: novelDetailsProvider.novelchaptermodel.result?[0].id.toString() ?? "",
+                        contentid: novelDetailsProvider.novelchaptermodel.result?[0].contentId.toString() ?? "",
+                        position: 0,
+                        sectionBannerList: novelDetailsProvider.novelchaptermodel.result ?? [],
+                        contentName: novelDetailsProvider.novelchaptermodel.result?[0].name.toString() ?? "",
+                        isBuy: novelDetailsProvider.novelchaptermodel.result?[0].isBuy.toString() ?? "",
+                        isAudioPaid: novelDetailsProvider.novelchaptermodel.result?[0].isBookPaid,
+                      );
+                    },
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        minHeight: 0,
+                        maxHeight: 45,
+                        minWidth: 0,
+                        // maxWidth: 120,
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryDark,
+                        borderRadius: BorderRadius.circular(5),
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: Row(
+                        children: [
+                          MyImage(
+                            imagePath: 'assets/images/ic_audiobook.png',
+                            height: 15,
+                            width: 19,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          MyText(
+                            color: white,
+                            maxline: 1,
+                            overflow: TextOverflow.ellipsis,
+                            multilanguage: true,
+                            text: "listen_now",
+                            textalign: TextAlign.center,
+                            fontsizeNormal: 16,
+                            fontsizeWeb: 18,
+                            fontweight: FontWeight.w700,
+                            fontstyle: FontStyle.normal,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                       ],
                     ),
                   ),

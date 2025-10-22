@@ -172,6 +172,11 @@ class _MyAppState extends State<MyApp> {
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           navigatorObservers: [routeObserver],
+          themeMode: ThemeMode.dark,
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            // Add your dark theme settings here
+          ),
           theme: ThemeData(
             useMaterial3: true,
             primaryColor: colorPrimary,
