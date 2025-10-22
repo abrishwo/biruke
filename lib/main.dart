@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dtpocketfm/firebase_options.dart';
 import 'package:dtpocketfm/pages/musicdetails.dart';
 import 'package:dtpocketfm/pages/splash.dart';
+import 'package:metadata_god/metadata_god.dart';
 import 'package:dtpocketfm/provider/audiosectiondataprovider.dart';
 import 'package:dtpocketfm/provider/avatarprovider.dart';
 import 'package:dtpocketfm/provider/channelsectionprovider.dart';
@@ -101,6 +102,7 @@ Future<void> main() async {
       event.notification.display();
     });
   }
+  MetadataGod.initialize();
   runApp(
     MultiProvider(
       providers: [
