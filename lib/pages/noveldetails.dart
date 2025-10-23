@@ -3,11 +3,12 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:convert';
 import 'package:dtpocketfm/main.dart';
 import 'package:dtpocketfm/pages/authorprofile.dart';
 import 'package:dtpocketfm/pages/pdfviewpage.dart';
 import 'package:dtpocketfm/utils/musicmanager.dart';
-import 'package:dtpocketfm/model/novelchapterlistmodel.dart' as novel;
+import 'package:dtpocketfm/model/novelsectionlistmodel.dart' as novel;
 import 'package:dtpocketfm/provider/novelsectiondataprovider.dart';
 import 'package:dtpocketfm/provider/showdetailsprovider.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
@@ -54,6 +55,7 @@ class NovelDetails extends StatefulWidget {
 }
 
 class NovelDetailsState extends State<NovelDetails> with RouteAware {
+  late MusicManager musicManager;
   /* Trailer init */
   VideoPlayerController? _trailerNormalController;
   YoutubePlayerController? _trailerYoutubeController;
@@ -94,6 +96,7 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
+    musicManager = MusicManager(context);
     debugPrint("initState videoId ==> ${widget.contentId}");
     debugPrint("initState videoType ==> ${widget.contentType}");
     _getData();
@@ -591,7 +594,7 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
                   InkWell(
                     onTap: () {
                       playAudio(
-                        playingType: novelDetailsProvider.novelchaptermodel.result?[0].bookType.toString() ?? "",
+                        playingType: novelDetailsProvider.novelchaptermodel.result?[0].audiobookType.toString() ?? "",
                         episodeid: novelDetailsProvider.novelchaptermodel.result?[0].id.toString() ?? "",
                         contentid: novelDetailsProvider.novelchaptermodel.result?[0].contentId.toString() ?? "",
                         position: 0,
