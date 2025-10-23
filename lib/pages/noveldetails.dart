@@ -594,7 +594,7 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
                   InkWell(
                     onTap: () {
                       playAudio(
-                        playingType: novelDetailsProvider.novelchaptermodel.result?[0].audiobookType.toString() ?? "",
+                        playingType: novelDetailsProvider.novelchaptermodel.result?[0].audioType.toString() ?? "",
                         episodeid: novelDetailsProvider.novelchaptermodel.result?[0].id.toString() ?? "",
                         contentid: novelDetailsProvider.novelchaptermodel.result?[0].contentId.toString() ?? "",
                         position: 0,
