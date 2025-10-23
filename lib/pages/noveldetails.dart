@@ -598,7 +598,7 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
                         episodeid: novelDetailsProvider.novelchaptermodel.result?[0].id.toString() ?? "",
                         contentid: novelDetailsProvider.novelchaptermodel.result?[0].contentId.toString() ?? "",
                         position: 0,
-                        sectionBannerList: novelDetailsProvider.novelchaptermodel.result ?? [],
+                        sectionBannerList: novelDetailsProvider.novelchaptermodel.result as List<novel.Result>?,
                         contentName: novelDetailsProvider.novelchaptermodel.result?[0].name.toString() ?? "",
                         isBuy: novelDetailsProvider.novelchaptermodel.result?[0].isBuy.toString() ?? "",
                         isAudioPaid: novelDetailsProvider.novelchaptermodel.result?[0].isBookPaid,

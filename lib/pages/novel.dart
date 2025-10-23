@@ -1521,7 +1521,7 @@ class NovelState extends State<Novel> {
       height: (sectionDataList?.length ?? 0) > 2
           ? Dimens.heightTrendingNovel
           : Dimens.heightTrendingNovel / 2,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 2 ? 2 : 1,
         itemCount: (sectionDataList?.length ?? 0),
         shrinkWrap: true,
@@ -1530,7 +1530,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             focusColor: white,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             borderRadius: BorderRadius.circular(4),
             onTap: () {
               debugPrint("Clicked on index ==> $index");
@@ -1806,7 +1805,7 @@ class NovelState extends State<Novel> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightLangGen,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         crossAxisCount: 2,
@@ -1821,7 +1820,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return Stack(
             alignment: AlignmentDirectional.bottomStart,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             children: [
               InkWell(
                 focusColor: white,
@@ -2041,7 +2039,7 @@ class NovelState extends State<Novel> {
           : (sectionDataList?.length) == 2
               ? Dimens.heightMiniSeries / 2
               : Dimens.heightMiniSeries,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 4
             ? 4
             : (sectionDataList?.length ?? 0),
@@ -2054,7 +2052,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             focusColor: white,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             borderRadius: BorderRadius.circular(4),
             onTap: () {
               debugPrint("Clicked on index ==> $index");
@@ -2148,7 +2145,7 @@ class NovelState extends State<Novel> {
     return Container(
       color: darkappbgcolor,
       width: MediaQuery.of(context).size.width,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         padding: const EdgeInsets.all(15),
         crossAxisCount: 2,
         itemCount:
@@ -2159,7 +2156,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             focusColor: white,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             borderRadius: BorderRadius.circular(4),
             onTap: () {
               debugPrint("Clicked on index ==> $index");
@@ -2249,7 +2245,7 @@ class NovelState extends State<Novel> {
       height: (sectionDataList?.length ?? 0) == 1
           ? Dimens.heightcontemporyRomance / 2
           : Dimens.heightcontemporyRomance,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         crossAxisCount: (sectionDataList?.length ?? 0) > 2
             ? 2
             : (sectionDataList?.length ?? 0),
@@ -2262,7 +2258,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             focusColor: white,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             borderRadius: BorderRadius.circular(4),
             onTap: () {
               debugPrint("Clicked on index ==> $index");
@@ -2437,7 +2432,7 @@ class NovelState extends State<Novel> {
       color: darkappbgcolor,
       width: MediaQuery.of(context).size.width,
       height: Dimens.heightbestSellingStries,
-      child: StaggeredGridView.countBuilder(
+      child: AlignedGridView.count(
         crossAxisCount: 2,
         itemCount: (sectionDataList?.length ?? 0) > 4
             ? 4
@@ -2449,7 +2444,6 @@ class NovelState extends State<Novel> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             focusColor: white,
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
             borderRadius: BorderRadius.circular(4),
             onTap: () {
               debugPrint("Clicked on index ==> $index");
