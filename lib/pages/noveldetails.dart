@@ -92,14 +92,15 @@ class NovelDetailsState extends State<NovelDetails> with RouteAware {
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     subscriptionProvider =
         Provider.of<SubscriptionProvider>(context, listen: false);
-    novelDetailsProvider.setLoading(true);
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
     musicManager = MusicManager(context);
     debugPrint("initState videoId ==> ${widget.contentId}");
     debugPrint("initState videoType ==> ${widget.contentType}");
-    _getData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getData();
+    });
   }
 
   updateDataDialog({

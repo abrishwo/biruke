@@ -205,6 +205,10 @@ class SplashState extends State<Splash> {
 
     seen = await sharedPre.read('seen') ?? "0";
     Constant.userID = await sharedPre.read('userid');
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    if (Constant.userID != null) {
+      await profileProvider.getProfile(context);
+    }
     debugPrint('seen ==> $seen');
     debugPrint('Constant userID ==> ${Constant.userID}');
     if (!mounted) return;

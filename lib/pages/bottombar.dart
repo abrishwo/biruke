@@ -56,9 +56,7 @@ class BottombarState extends State<Bottombar> {
     final generalsetting = Provider.of<GeneralProvider>(context, listen: false);
     final profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
-    if (Constant.userID != null) {
-      await profileProvider.getProfile(context);
-    } else {
+    if (Constant.userID == null) {
       Utils.updatePremium("0");
       Utils.loadAds(context);
     }
