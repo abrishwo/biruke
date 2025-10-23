@@ -105,13 +105,12 @@ class ApiService {
       'device_type': deviceType,
     };
     
-    // Temporarily disable image upload to test if that's causing the 500 error
-    // if (profileImg?.path != null && (profileImg?.path ?? "").isNotEmpty) {
-    //   // Convert image to base64 for JSON request
-    //   List<int> imageBytes = await profileImg!.readAsBytes();
-    //   String base64Image = base64Encode(imageBytes);
-    //   requestData['image'] = base64Image;
-    // }
+    if (profileImg?.path != null && (profileImg?.path ?? "").isNotEmpty) {
+      // Convert image to base64 for JSON request
+      List<int> imageBytes = await profileImg!.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+      requestData['image'] = base64Image;
+    }
     
     Response response = await dio.post(
       '$baseUrl$gmailLogin',
