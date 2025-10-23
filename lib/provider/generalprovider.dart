@@ -65,8 +65,40 @@ class GeneralProvider extends ChangeNotifier {
     loading = false;
     notifyListeners();
   }
-
+// ...existing code...
   Future<void> loginWithSocial(
+      email, name, type, deviceType, File? profileImg) async {
+    debugPrint("loginWithSocial email :==> $email");
+    debugPrint("loginWithSocial name :==> $name");
+    debugPrint("loginWithSocial type :==> $type");
+    debugPrint("loginWithSocial profileImg :==> ${profileImg?.path}");
+
+    loading = true;
+    notifyListeners();
+
+    try {
+      loginSocialModel = await ApiService().loginWithSocial(
+        email,
+        name,
+        type,
+        deviceType,
+        profileImg,
+      );
+      debugPrint("loginWithSocial status :==> ${loginSocialModel.status}");
+      debugPrint("loginWithSocial message :==> ${loginSocialModel.message}");
+    } catch (e, st) {
+      // Log full error for debugging; do not crash the app
+      debugPrint('loginWithSocial error: $e');
+      debugPrint('$st');
+      // Optionally set a minimal fallback model so UI can read stable values
+      loginSocialModel = LoginRegisterModel();
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
+  }
+// ...existing code...
+  Future<void> loginWithSocial2(
       email, name, type, deviceType, File? profileImg) async {
     debugPrint("loginWithSocial email :==> $email");
     debugPrint("loginWithSocial name :==> $name");

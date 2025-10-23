@@ -89,7 +89,114 @@ class ApiService {
 
   /* type => 1-Facebook, 2-Google, 4-Google */
   // login API
+ 
   Future<LoginRegisterModel> loginWithSocial(
+      email, String name, type, deviceType, File? profileImg) async {
+    debugPrint("email :==> $email");
+    debugPrint("name :==> $name");
+    debugPrint("type :==> $type");
+    debugPrint("profileImg :==> $profileImg");
+
+    LoginRegisterModel loginModel;
+    String gmailLogin = "login";
+
+    try {
+      if (profileImg != null && (profileImg.path).isNotEmpty) {
+        // send as multipart form-data with file upload
+        final file = await MultipartFile.fromFile(
+          profileImg.path,
+          filename: basename(profileImg.path),
+        );
+
+        final formData = FormData.fromMap({
+          'type': type,
+          'email': email,
+          'full_name': name,
+          'device_type': deviceType,
+          'image': file,
+        });
+
+        Response response = await dio.post(
+          '$baseUrl$gmailLogin',
+          data: formData,
+          options: Options(
+            headers: <String, dynamic>{
+              'Content-Type': 'multipart/form-data',
+            },
+          ),
+        );
+
+        loginModel = LoginRegisterModel.fromJson(response.data);
+        return loginModel;
+      } else {
+        // no file — send JSON
+        Map<String, dynamic> requestData = {
+          'type': type,
+          'email': email,
+          'full_name': name,
+          'device_type': deviceType,
+        };
+
+        Response response = await dio.post(
+          '$baseUrl$gmailLogin',
+          options: optHeaders,
+          data: requestData,
+        );
+
+        loginModel = LoginRegisterModel.fromJson(response.data);
+        return loginModel;
+      }
+    } on DioException catch (e) {
+      debugPrint('loginWithSocial DioException: ${e.message}');
+      debugPrint('Status code: ${e.response?.statusCode}');
+      debugPrint('Response headers: ${e.response?.headers}');
+      debugPrint('Response data: ${e.response?.data}');
+      throw Exception(
+          'loginWithSocial failed: ${e.response?.statusCode} - ${e.response?.data}');
+    } catch (e, st) {
+      debugPrint('loginWithSocial unexpected error: $e\n$st');
+      rethrow;
+    }
+  }
+
+   Future<LoginRegisterModel> loginWithSocial6(
+      email, String name, type, deviceType, File? profileImg) async {
+    debugPrint("email :==> $email");
+    debugPrint("name :==> $name");
+    debugPrint("type :==> $type");
+    debugPrint("profileImg :==> $profileImg");
+
+    LoginRegisterModel loginModel;
+    String gmailLogin = "login";
+    
+    FormData formData = FormData.fromMap({
+      'type': type,
+      'email': email,
+      'full_name': name,
+      'device_type': deviceType,
+      "image": (profileImg != null && profileImg.path.isNotEmpty)
+          ? await MultipartFile.fromFile(
+              profileImg.path,
+              filename: basename(profileImg.path),
+            )
+          : "",
+    });
+
+    Response response = await dio.post(
+      '$baseUrl$gmailLogin',
+      data: formData,
+      options: Options(
+        headers: <String, dynamic>{
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
+
+    loginModel = LoginRegisterModel.fromJson(response.data);
+    return loginModel;
+  }
+
+ Future<LoginRegisterModel> loginWithSocial2(
       email, String name, type, deviceType, File? profileImg) async {
     debugPrint("email :==> $email");
     debugPrint("name :==> $name");
@@ -121,7 +228,6 @@ class ApiService {
     loginModel = LoginRegisterModel.fromJson(response.data);
     return loginModel;
   }
-
   /* type => 3-OTP */
   // login API
   Future<LoginRegisterModel> loginWithOTP(mobile) async {
@@ -1508,4 +1614,22 @@ class ApiService {
     successModel = SuccessModel.fromJson(response.data);
     return successModel;
   }
+
+  Future<Response> loginWithSocial3(Map<String, dynamic> body) async {
+  try {
+    final resp = await dio.post('/your/login/social/endpoint', data: body);
+    return resp;
+  } on DioException catch (e) {
+    // Log full server response for debugging
+    debugPrint('loginWithSocial DioException: ${e.message}');
+    debugPrint('Status code: ${e.response?.statusCode}');
+    debugPrint('Response headers: ${e.response?.headers}');
+    debugPrint('Response data: ${e.response?.data}');
+    // Re-throw a clearer exception so callers can handle it
+    throw Exception('loginWithSocial failed: ${e.response?.statusCode} - ${e.response?.data}');
+  } catch (e, st) {
+    debugPrint('loginWithSocial unexpected error: $e\n$st');
+    rethrow;
+  }
+}
 }
