@@ -1,6 +1,7 @@
 import 'package:dtpocketfm/pages/bottombar.dart';
 import 'package:dtpocketfm/pages/intro.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
+import 'package:dtpocketfm/provider/profileprovider.dart';
 import 'package:dtpocketfm/tvpages/webhome.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';

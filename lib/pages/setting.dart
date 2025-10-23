@@ -8,6 +8,7 @@ import 'package:dtpocketfm/provider/generalprovider.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
 import 'package:dtpocketfm/provider/sectiondataprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/adhelper.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -360,7 +361,36 @@ class SettingState extends State<Setting> {
                     imagePath: 'ic_changeLanguage.png',
                     type: 1,
                   ),
-                  // _buildLine(16.0, 16.0),
+                  _buildLine(16.0, 16.0),
+
+                  /* Dark Mode */
+                  Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, child) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: _buildSettingButton(
+                              title: 'dark_mode',
+                              subTitle: 'toggle_dark_mode',
+                              titleMultilang: true,
+                              subTitleMultilang: true,
+                              onClick: () {
+                                themeProvider.toggleTheme();
+                              },
+                              imagePath: 'ic_dark_mode.png',
+                              type: 1,
+                            ),
+                          ),
+                          Switch(
+                            value: themeProvider.isDarkMode,
+                            onChanged: (value) {
+                              themeProvider.toggleTheme();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
 
                   /* Push Notification enable/disable */
                   // Row(

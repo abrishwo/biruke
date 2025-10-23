@@ -30,6 +30,7 @@ import 'package:dtpocketfm/provider/subscriptionprovider.dart';
 import 'package:dtpocketfm/provider/videobyidprovider.dart';
 import 'package:dtpocketfm/provider/videodetailsprovider.dart';
 import 'package:dtpocketfm/provider/watchlistprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/tvpages/webhome.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -130,6 +131,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => MusicDetailProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => RewardProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),
     ),
@@ -169,19 +171,21 @@ class _MyAppState extends State<MyApp> {
         LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
         LogicalKeySet(LogicalKeyboardKey.enter): const ActivateIntent(),
       },
-      child: LocaleBuilder(
-        builder: (locale) => MaterialApp(
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          navigatorObservers: [routeObserver],
-          themeMode: ThemeMode.dark,
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            // Add your dark theme settings here
-          ),
-          theme: ThemeData(
-            useMaterial3: true,
-            primaryColor: colorPrimary,
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return LocaleBuilder(
+            builder: (locale) => MaterialApp(
+              navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
+              navigatorObservers: [routeObserver],
+              themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+              darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                // Add your dark theme settings here
+              ),
+              theme: ThemeData(
+                useMaterial3: true,
+                primaryColor: colorPrimary,
             primaryColorDark: colorPrimaryDark,
             primaryColorLight: primaryLight,
             scaffoldBackgroundColor: appBgColor,
@@ -295,8 +299,10 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ),
-      ),
-    );
+      );
+  },
+ ),
+);
   }
 
   _getDeviceInfo() async {

@@ -128,6 +128,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
           controller: _pdfViewerController,
           key: _pdfViewerKey,
           pageLayoutMode: PdfPageLayoutMode.single,
+          scrollDirection: PdfScrollDirection.horizontal,
           onPageChanged: (details) {
             _pdfViewerController.pageNumber;
             debugPrint("Current Page nO -- ${_pdfViewerController.pageNumber}");
