@@ -826,4 +826,139 @@ class AllPaymentState extends State<AllPayment>
                   })
                 : const SizedBox.shrink()
             : const SizedBox.shrink(),
+      ],
+    );
+  }
+
+  // --- Minimal stubs for missing methods referenced earlier in this file ---
+  // Implement proper logic for these when integrating real payment flows.
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    // TODO: handle in-app purchase updates (consume, verify receipts, etc.)
+    debugPrint('_listenToPurchaseUpdated called: ${purchaseDetailsList.length}');
+    for (final PurchaseDetails purchase in purchaseDetailsList) {
+      // basic handling placeholder
+      if (purchase.status == PurchaseStatus.purchased) {
+        _purchases.add(purchase);
+      }
+    }
+  }
+
+  Future<void> initStoreInfo() async {
+    // TODO: query product details and update state
+    debugPrint('initStoreInfo called');
+  }
+
+  Future<void> _paypalInit() async {
+    // TODO: implement paypal payment flow
+    debugPrint('_paypalInit called');
+  }
+
+  Future<void> _initInAppPurchase() async {
+    // TODO: request purchase for _kProductIds etc.
+    debugPrint('_initInAppPurchase called');
+  }
+
+  void _initializeRazorpay() {
+    // TODO: initialize Razorpay and set callbacks
+    debugPrint('_initializeRazorpay called');
+  }
+
+  Future<void> _flutterwaveInit() async {
+    // TODO: implement flutterwave payment initialization
+    debugPrint('_flutterwaveInit called');
+  }
+
+  Future<void> _payUInit() async {
+    // TODO: start PayU checkout flow
+    debugPrint('_payUInit called');
+  }
+
+  void onBackPressed() {
+    // called from PopScope; default behavior: pop
+    if (mounted) Navigator.of(context).maybePop();
+  }
+
+  Widget _buildPGButton(String imgPath, String pgName, double imgHeight,
+      double imgWidth,
+      {required Function() onClick}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5),
+      child: Card(
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        elevation: 5,
+        color: lightBlack,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: onClick,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 85),
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: MyText(
+                    color: colorPrimary,
+                    text: pgName,
+                    multilanguage: false,
+                    fontsizeNormal: 22,
+                    fontsizeWeb: 22,
+                    maxline: 2,
+                    overflow: TextOverflow.ellipsis,
+                    fontweight: FontWeight.w600,
+                    textalign: TextAlign.start,
+                    fontstyle: FontStyle.normal,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                MyImage(
+                  imagePath: imgPath,
+                  fit: BoxFit.contain,
+                  height: imgHeight,
+                  width: imgWidth,
+                  color: white,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- PayU protocol required methods (stubs) ---
+  @override
+  void generateHash(Map response) {
+    // PayU expects this to generate hash (should be done on server).
+    // TODO: replace with real hash generation or a server call.
+    debugPrint('PayU.generateHash called: $response');
+  }
+
+  @override
+  void onError(Map? response) {
+    debugPrint('PayU.onError: $response');
+  }
+
+  @override
+  void onPaymentCancel(Map? response) {
+    debugPrint('PayU.onPaymentCancel: $response');
+  }
+
+  @override
+  void onPaymentFailure(dynamic response) {
+    debugPrint('PayU.onPaymentFailure: $response');
+  }
+
+  @override
+  void onPaymentSuccess(dynamic response) {
+    debugPrint('PayU.onPaymentSuccess: $response');
+    // Example: call addTransaction or addRentTransaction depending on widget.payType
+  }
+}
 

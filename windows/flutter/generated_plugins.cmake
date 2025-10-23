@@ -8,7 +8,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_auth
   firebase_core
   flutter_inappwebview_windows
-  flutter_media_metadata
   flutter_secure_storage_windows
   permission_handler_windows
   smart_auth
@@ -18,6 +17,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  metadata_god
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

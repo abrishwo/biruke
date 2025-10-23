@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
-  flutter_media_metadata
   flutter_secure_storage_linux
   smart_auth
   syncfusion_pdfviewer_linux
@@ -12,6 +11,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  metadata_god
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
