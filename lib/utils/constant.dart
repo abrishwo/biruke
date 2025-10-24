@@ -2,8 +2,10 @@ import 'package:dtpocketfm/model/qualitymodel.dart';
 import 'package:dtpocketfm/model/subtitlemodel.dart';
 
 class Constant {
+  // static const String baseurl =
+  //     'https://mn-ww.com/book/public/api/';
   static const String baseurl =
-      'https://mn-ww.com/book/public/api/';
+      'https://book.algoraz.com/public/api/';
 
   static String appName = "Book App";
   static String appPackageName = "com.bookapp.et";

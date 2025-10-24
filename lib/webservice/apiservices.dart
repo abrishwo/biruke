@@ -50,6 +50,11 @@ class ApiService {
     'Content-Type': 'application/json',
   });
 
+  // Use this for multipart/FormData requests — let Dio set Content-Type (boundary).
+  Options acceptJson = Options(headers: <String, dynamic>{
+    'Accept': 'application/json',
+  });
+  
   ApiService() {
     dio = Dio();
     dio.interceptors.add(
@@ -90,7 +95,7 @@ class ApiService {
   /* type => 1-Facebook, 2-Google, 4-Google */
   // login API
  
-  Future<LoginRegisterModel> loginWithSocial(
+  Future<LoginRegisterModel> loginWithSocial2(
       email, String name, type, deviceType, File? profileImg) async {
     debugPrint("email :==> $email");
     debugPrint("name :==> $name");
@@ -119,12 +124,10 @@ class ApiService {
         Response response = await dio.post(
           '$baseUrl$gmailLogin',
           data: formData,
-          options: Options(
-            headers: <String, dynamic>{
-              'Content-Type': 'multipart/form-data',
-            },
-          ),
+          options: acceptJson,
         );
+
+
 
         loginModel = LoginRegisterModel.fromJson(response.data);
         return loginModel;
@@ -185,18 +188,142 @@ class ApiService {
     Response response = await dio.post(
       '$baseUrl$gmailLogin',
       data: formData,
-      options: Options(
-        headers: <String, dynamic>{
-          'Content-Type': 'multipart/form-data',
-        },
-      ),
+      options: acceptJson,
     );
 
     loginModel = LoginRegisterModel.fromJson(response.data);
     return loginModel;
   }
+  // ...existing code...
+Future<LoginRegisterModel> loginWithSocial(
+    email, String name, type, deviceType, File? profileImg) async {
+  debugPrint("email :==> $email");
+  debugPrint("name :==> $name");
+  debugPrint("type :==> $type");
+  debugPrint("profileImg :==> $profileImg");
 
- Future<LoginRegisterModel> loginWithSocial2(
+  LoginRegisterModel loginModel;
+  String gmailLogin = "login";
+
+  try {
+    // Only use FormData when a real file exists — otherwise send JSON
+    if (profileImg != null && (profileImg.path).isNotEmpty && await profileImg.exists()) {
+      final file = await MultipartFile.fromFile(
+        profileImg.path,
+        filename: basename(profileImg.path),
+      );
+
+      final formData = FormData.fromMap({
+        'type': type,
+        'email': email,
+        'full_name': name,
+        'device_type': deviceType,
+        'image': file,
+      });
+
+      Response response = await dio.post(
+        '$baseUrl$gmailLogin',
+        data: formData,
+        options: acceptJson,
+      );
+
+      loginModel = LoginRegisterModel.fromJson(response.data);
+      return loginModel;
+    } else {
+      // no image -> send plain JSON (no empty "image" field)
+      final requestData = {
+        'type': type,
+        'email': email,
+        'full_name': name,
+        'device_type': deviceType,
+      };
+
+      Response response = await dio.post(
+        '$baseUrl$gmailLogin',
+        options: optHeaders,
+        data: requestData,
+      );
+
+      loginModel = LoginRegisterModel.fromJson(response.data);
+      return loginModel;
+    }
+  } on DioException catch (e) {
+    debugPrint('loginWithSocial DioException: ${e.message}');
+    debugPrint('Status code: ${e.response?.statusCode}');
+    debugPrint('Response data: ${e.response?.data}');
+    rethrow;
+  } catch (e, st) {
+    debugPrint('loginWithSocial unexpected: $e\n$st');
+    rethrow;
+  }
+}
+// ...existing code...
+// ...existing code...
+Future<LoginRegisterModel> loginWithSocialback(
+    email, String name, type, deviceType, File? profileImg) async {
+  debugPrint("email :==> $email");
+  debugPrint("name :==> $name");
+  debugPrint("type :==> $type");
+  debugPrint("profileImg :==> $profileImg");
+
+  LoginRegisterModel loginModel;
+  String gmailLogin = "login";
+
+  try {
+    // build payload: use FormData only if there's a file, otherwise send JSON
+    if (profileImg != null && profileImg.path.isNotEmpty && await profileImg.exists()) {
+      final file = await MultipartFile.fromFile(
+        profileImg.path,
+        filename: basename(profileImg.path),
+      );
+
+      final formData = FormData.fromMap({
+        'type': type,
+        'email': email,
+        'full_name': name,
+        'device_type': deviceType,
+        // include image only when it's a valid file
+        'image': file,
+      });
+
+      Response response = await dio.post(
+        '$baseUrl$gmailLogin',
+        data: formData,
+        options: acceptJson, // let Dio set content-type boundary, request JSON response
+      );
+
+      loginModel = LoginRegisterModel.fromJson(response.data);
+      return loginModel;
+    } else {
+      // no image -> send JSON body
+      final requestData = {
+        'type': type,
+        'email': email,
+        'full_name': name,
+        'device_type': deviceType,
+      };
+
+      Response response = await dio.post(
+        '$baseUrl$gmailLogin',
+        options: optHeaders,
+        data: requestData,
+      );
+
+      loginModel = LoginRegisterModel.fromJson(response.data);
+      return loginModel;
+    }
+  } on DioException catch (e) {
+    debugPrint('loginWithSocial DioException: ${e.message}');
+    debugPrint('Status code: ${e.response?.statusCode}');
+    debugPrint('Response data: ${e.response?.data}');
+    rethrow;
+  } catch (e, st) {
+    debugPrint('loginWithSocial unexpected: $e\n$st');
+    rethrow;
+  }
+}
+// ...existing code...
+ Future<LoginRegisterModel> loginWithSocial65(
       email, String name, type, deviceType, File? profileImg) async {
     debugPrint("email :==> $email");
     debugPrint("name :==> $name");
@@ -224,6 +351,15 @@ class ApiService {
       options: optHeaders,
       data: requestData,
     );
+//        Response response = await dio.post(
+//   '$baseUrl$gmailLogin',
+//   data: requestData,
+//   options: Options(
+//     headers: {
+//       'Accept': 'application/json', // Let dio set Content-Type
+//     },
+//   ),
+// );
 
     loginModel = LoginRegisterModel.fromJson(response.data);
     return loginModel;
@@ -332,9 +468,7 @@ class ApiService {
               ))
             : "",
       }),
-      options: Options(headers: <String, dynamic>{
-        'Content-Type': 'multipart/form-data',
-      }),
+      options: acceptJson,
     );
 
     successModel = SuccessModel.fromJson(response.data);
@@ -360,9 +494,7 @@ class ApiService {
               )
             : "",
       }),
-      options: Options(headers: <String, dynamic>{
-        'Content-Type': 'multipart/form-data',
-      }),
+      options: acceptJson,
     );
 
     uploadImgModel = SuccessModel.fromJson(response.data);
@@ -387,9 +519,7 @@ class ApiService {
         'email': email,
         'mobile_number': mobileNumber,
       }),
-      options: Options(headers: <String, dynamic>{
-        'Content-Type': 'multipart/form-data',
-      }),
+      options: acceptJson,
     );
 
     responseModel = SuccessModel.fromJson(response.data);
@@ -419,9 +549,7 @@ class ApiService {
               )
             : "",
       }),
-      options: Options(headers: <String, dynamic>{
-        'Content-Type': 'multipart/form-data',
-      }),
+      options: acceptJson,
     );
 
     uploadThreadsModel = SuccessModel.fromJson(response.data);
@@ -437,9 +565,7 @@ class ApiService {
       data: FormData.fromMap({
         'threads_id': threadsID,
       }),
-      options: Options(headers: <String, dynamic>{
-        'Content-Type': 'multipart/form-data',
-      }),
+      options: acceptJson,
     );
 
     deleteThreadsModel = SuccessModel.fromJson(response.data);
@@ -550,9 +676,7 @@ class ApiService {
     SectionListModel musicsectionListModel;
     String apiname = "get_music_section";
     Response response = await dio.post('$baseUrl$apiname',
-        options: Options(headers: <String, dynamic>{
-          'Content-Type': 'multipart/form-data',
-        }),
+        options: acceptJson,
         data: FormData.fromMap({
           'user_id': Constant.userID == null ? "0" : (Constant.userID ?? ""),
           'is_home_screen': ishomescreen,
@@ -1247,9 +1371,7 @@ class ApiService {
     GetNotificationModel getNotificationModel;
     String apiname = "get_notification";
     Response response = await dio.post('$baseUrl$apiname',
-        options: Options(headers: <String, dynamic>{
-          'Content-Type': 'multipart/form-data',
-        }),
+        options: acceptJson,
         data: FormData.fromMap({
           'user_id': Constant.userID == null ? "0" : (Constant.userID ?? ""),
           'page_no': pageNo,
@@ -1262,9 +1384,7 @@ class ApiService {
     SuccessModel successModel;
     String apiname = "read_notification";
     Response response = await dio.post('$baseUrl$apiname',
-        options: Options(headers: <String, dynamic>{
-          'Content-Type': 'multipart/form-data',
-        }),
+        options: acceptJson,
         data: FormData.fromMap({
           'user_id': Constant.userID == null ? "0" : (Constant.userID ?? ""),
           'notification_id': notificationId,
@@ -1615,21 +1735,5 @@ class ApiService {
     return successModel;
   }
 
-  Future<Response> loginWithSocial3(Map<String, dynamic> body) async {
-  try {
-    final resp = await dio.post('/your/login/social/endpoint', data: body);
-    return resp;
-  } on DioException catch (e) {
-    // Log full server response for debugging
-    debugPrint('loginWithSocial DioException: ${e.message}');
-    debugPrint('Status code: ${e.response?.statusCode}');
-    debugPrint('Response headers: ${e.response?.headers}');
-    debugPrint('Response data: ${e.response?.data}');
-    // Re-throw a clearer exception so callers can handle it
-    throw Exception('loginWithSocial failed: ${e.response?.statusCode} - ${e.response?.data}');
-  } catch (e, st) {
-    debugPrint('loginWithSocial unexpected error: $e\n$st');
-    rethrow;
-  }
-}
+  
 }

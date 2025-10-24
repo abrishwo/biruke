@@ -519,7 +519,77 @@ class LoginSocialState extends State<LoginSocial> {
   }
 
   /* Google Login */
+  // ...existing code...
   Future<void> _gmailLogin() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) return;
+
+    GoogleSignInAccount user = googleUser;
+
+    debugPrint('GoogleSignIn ===> id : ${user.id}');
+    debugPrint('GoogleSignIn ===> email : ${user.email}');
+    debugPrint('GoogleSignIn ===> displayName : ${user.displayName}');
+    debugPrint('GoogleSignIn ===> photoUrl : ${user.photoUrl}');
+
+    if (!mounted) return;
+    Utils.showProgress(context, prDialog);
+
+    try {
+      GoogleSignInAuthentication googleSignInAuthentication =
+          await user.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      final token = await userCredential.user?.getIdToken();
+      if (token == null) {
+        // Hide Progress Dialog on failure
+        if (prDialog.isShowing()) await prDialog.hide();
+        debugPrint('Google sign-in failed: no id token');
+        return;
+      }
+
+      debugPrint("User Name: ${userCredential.user?.displayName}");
+      debugPrint("User Email ${userCredential.user?.email}");
+      debugPrint("User photoUrl ${userCredential.user?.photoURL}");
+      debugPrint("uid ===> ${userCredential.user?.uid}");
+      String firebasedid = userCredential.user?.uid ?? "";
+      debugPrint('firebasedid :===> $firebasedid');
+
+      /* Save PhotoUrl in File — only if photoURL exists */
+      final photoUrl = userCredential.user?.photoURL ?? user.photoUrl ?? "";
+      if (photoUrl.isNotEmpty) {
+        try {
+          mProfileImg = await Utils.saveImageInStorage(photoUrl);
+          debugPrint('mProfileImg :===> $mProfileImg');
+        } catch (e) {
+          debugPrint('Failed to save profile image: $e');
+        }
+      }
+
+      if (!mounted) {
+        // ensure UI still valid before navigation
+        if (prDialog.isShowing()) await prDialog.hide();
+        return;
+      }
+
+      checkAndNavigate(user.email, user.displayName ?? "", "2");
+    } on FirebaseAuthException catch (e) {
+      debugPrint('FirebaseAuthException: ${e.code} ${e.message}');
+      if (prDialog.isShowing()) await prDialog.hide();
+      if (e.code == 'wrong-password') {
+        Utils.showToast('Wrong password provided.');
+      }
+    } catch (e, st) {
+      debugPrint('Unexpected error in _gmailLogin: $e\n$st');
+      if (prDialog.isShowing()) await prDialog.hide();
+    }
+  }
+// ...existing code...
+  Future<void> _gmailLogin2() async {
     final googleUser = await GoogleSignIn().signIn();
     if (googleUser == null) return;
 
