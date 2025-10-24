@@ -328,6 +328,7 @@ class NovelController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
                 'is_book_paid' => 'required',
                 'book' => 'required',
+                'audio' => 'required_if:audio_type,1',
             ]);
             if ($validator->fails()) {
                 $errs = $validator->errors()->all();
