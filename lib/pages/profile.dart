@@ -12,6 +12,7 @@ import 'package:dtpocketfm/widget/myusernetworkimg.dart';
 import 'package:dtpocketfm/widget/nodata.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:intl/intl.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
+  late ThemeProvider themeProvider;
   late ProgressDialog prDialog;
   late ProfileProvider profileProvider;
   late ScrollController _scrollController;
@@ -112,19 +114,23 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF1DB954),
+          backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
           elevation: 0,
-          leading: kIsWeb ? null : IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: const Text(
+          leading: kIsWeb
+              ? null
+              : IconButton(
+                  icon: Icon(Icons.arrow_back,
+                      color: themeProvider.isDarkMode ? white : black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+          title: Text(
             "Profile",
             style: TextStyle(
-              color: Colors.white,
+              color: themeProvider.isDarkMode ? white : black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -151,7 +157,8 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                 builder: (context, profileProvider, child) {
                   return Column(children: [
                     Container(
-                      color: appBgColor,
+                      color:
+                          themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                       height: kIsWeb ? 260 : 130,
                       width: MediaQuery.of(context).size.width,
                       child: MyUserNetworkImage(
@@ -247,7 +254,9 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                                     fontweight: FontWeight.w500,
                                     fontstyle: FontStyle.normal,
                                     textalign: TextAlign.center,
-                                    color: primaryDark,
+                                    color: themeProvider.isDarkMode
+                                        ? white
+                                        : primaryDark,
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -291,7 +300,8 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                                 fontweight: FontWeight.w500,
                                 fontstyle: FontStyle.normal,
                                 textalign: TextAlign.center,
-                                color: white,
+                                color:
+                                    themeProvider.isDarkMode ? white : black,
                               ),
                             ),
                             _buildTabs()
@@ -328,7 +338,8 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                 builder: (context, profileProvider, child) {
                   return Column(children: [
                     Container(
-                      color: appBgColor,
+                      color:
+                          themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                       height: kIsWeb ? 260 : 130,
                       width: MediaQuery.of(context).size.width,
                       child: MyUserNetworkImage(
@@ -446,7 +457,9 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                                     fontweight: FontWeight.w500,
                                     fontstyle: FontStyle.normal,
                                     textalign: TextAlign.center,
-                                    color: primaryDark,
+                                    color: themeProvider.isDarkMode
+                                        ? white
+                                        : primaryDark,
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -493,7 +506,9 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                                       padding: const EdgeInsets.all(10),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                        color: white,
+                                        color: themeProvider.isDarkMode
+                                            ? black
+                                            : white,
                                         borderRadius: BorderRadius.circular(44),
                                         shape: BoxShape.rectangle,
                                       ),
@@ -532,7 +547,8 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
                                 fontweight: FontWeight.w500,
                                 fontstyle: FontStyle.normal,
                                 textalign: TextAlign.center,
-                                color: white,
+                                color:
+                                    themeProvider.isDarkMode ? white : black,
                               ),
                             ),
                             _buildTabs()
@@ -1371,7 +1387,7 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
               children: [
                 MyText(
                   fontsizeWeb: 15,
-                  color: white,
+                  color: themeProvider.isDarkMode ? white : black,
                   text: desc,
                   fontsizeNormal: 13,
                   fontweight: FontWeight.w600,
@@ -1409,7 +1425,7 @@ class _MyProfileState extends State<MyProfile> with TickerProviderStateMixin {
             margin: const EdgeInsets.only(top: 20, left: 20),
             child: MyText(
               fontsizeWeb: 14,
-              color: white,
+              color: themeProvider.isDarkMode ? white : black,
               text: 'deletenow',
               multilanguage: true,
               fontsizeNormal: 12,

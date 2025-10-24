@@ -8,6 +8,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dtpocketfm/utils/color.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/utils.dart';
 import 'package:dtpocketfm/widget/mytext.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class Notifications extends StatefulWidget {
 }
 
 class NotificationsState extends State<Notifications> {
+  late ThemeProvider themeProvider;
   late NotificationProvider notificationProvider;
   late ScrollController _scrollController;
 
@@ -63,8 +65,9 @@ class NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       appBar: AppBar(
         elevation: 0,
         title: MyText(
@@ -72,7 +75,7 @@ class NotificationsState extends State<Notifications> {
           fontsizeNormal: 18,
           fontsizeWeb: 16,
           fontweight: FontWeight.w500,
-          color: white,
+          color: themeProvider.isDarkMode ? white : black,
           text: 'notification',
         ),
         leading: InkWell(
@@ -87,7 +90,8 @@ class NotificationsState extends State<Notifications> {
           ),
         ),
         centerTitle: false,
-        backgroundColor: appBgColor,
+        backgroundColor:
+            themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -188,7 +192,9 @@ class NotificationsState extends State<Notifications> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     MyText(
-                                        color: white,
+                                        color: themeProvider.isDarkMode
+                                            ? white
+                                            : black,
                                         text: notificationProvider
                                                 .notificationList?[index].title
                                                 ?.toString() ??

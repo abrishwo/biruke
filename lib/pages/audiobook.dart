@@ -20,6 +20,7 @@ import 'package:dtpocketfm/utils/dimens.dart';
 import 'package:dtpocketfm/widget/myusernetworkimg.dart';
 import 'package:dtpocketfm/widget/nodata.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
 import 'package:dtpocketfm/widget/mytext.dart';
@@ -50,6 +51,7 @@ class AudioBooks extends StatefulWidget {
 }
 
 class AudioBooksState extends State<AudioBooks> {
+  late ThemeProvider themeProvider;
   late ProfileProvider profileProvider;
   late AudioSectionDataProvider sectionDataProvider;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -249,8 +251,9 @@ class AudioBooksState extends State<AudioBooks> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       body: SafeArea(
         child: (kIsWeb || Constant.isTV)
             ? _webAppBarWithDetails()
@@ -344,7 +347,8 @@ class AudioBooksState extends State<AudioBooks> {
                   ),
                 ],
                 automaticallyImplyLeading: false,
-                backgroundColor: const Color(0xFF1DB954),
+                backgroundColor:
+                    themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                 toolbarHeight: 65,
                 title: Container(
                   width: MediaQuery.of(context).size.width,
@@ -359,7 +363,7 @@ class AudioBooksState extends State<AudioBooks> {
                     },
                     child: MyText(
                       multilanguage: true,
-                      color: white,
+                      color: themeProvider.isDarkMode ? white : black,
                       text: "audiobook",
                       fontsizeNormal: 15,
                       fontweight: FontWeight.w600,
@@ -441,18 +445,25 @@ class AudioBooksState extends State<AudioBooks> {
                 child: Container(
                   constraints: const BoxConstraints(maxHeight: 35),
                   decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 2,
-                              color: homeProvider.selectedIndex == index
-                                  ? primaryDark
-                                  : transparentColor))),
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 2,
+                        color: homeProvider.selectedIndex == index
+                            ? (themeProvider.isDarkMode
+                                ? Colors.white
+                                : primaryDark)
+                            : Colors.transparent,
+                      ),
+                    ),
+                  ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.fromLTRB(13, 0, 13, 0),
                   child: MyText(
                     color: homeProvider.selectedIndex == index
-                        ? primaryDark
-                        : Colors.black54,
+                        ? (themeProvider.isDarkMode ? Colors.white : primaryDark)
+                        : (themeProvider.isDarkMode
+                            ? Colors.white54
+                            : Colors.black54),
                     multilanguage: false,
                     text: index == 0
                         ? "Home"
@@ -481,8 +492,8 @@ class AudioBooksState extends State<AudioBooks> {
     return Container(
       alignment: Alignment.centerLeft,
       height: 160,
-      decoration: const BoxDecoration(
-        color: darkappbgcolor,
+      decoration: BoxDecoration(
+        color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       ),
       child: ListView.separated(
         itemCount: sectionTypeList?.length ?? 0,
@@ -524,7 +535,9 @@ class AudioBooksState extends State<AudioBooks> {
                       MyText(
                         textalign: TextAlign.center,
                         maxline: 2,
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black87,
                         text: sectionTypeList?[index].userName.toString() ?? "",
                         fontsizeNormal: 12,
                         fontweight: FontWeight.w600,
@@ -583,7 +596,8 @@ class AudioBooksState extends State<AudioBooks> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15.0, bottom: 15),
                   child: Card(
-                    color: appBgColor,
+                    color:
+                        themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                     elevation: 10,
                     shadowColor: primaryDark,
                     child: Container(
@@ -616,7 +630,9 @@ class AudioBooksState extends State<AudioBooks> {
                             height: 5,
                           ),
                           MyText(
-                            color: Colors.black87,
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Colors.black87,
                             multilanguage: false,
                             text:
                                 (sectionTypeList?[index].name.toString() ?? ""),
@@ -646,7 +662,8 @@ class AudioBooksState extends State<AudioBooks> {
       width: MediaQuery.of(context).size.width,
       constraints: const BoxConstraints.expand(),
       child: RefreshIndicator(
-        backgroundColor: white,
+        backgroundColor:
+            themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         color: complimentryColor,
         displacement: 80,
         onRefresh: () async {
@@ -849,14 +866,16 @@ class AudioBooksState extends State<AudioBooks> {
                           width: MediaQuery.of(context).size.width,
                           height: Dimens.homeBanner,
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.center,
                               end: Alignment.bottomCenter,
                               colors: [
                                 transparentColor,
                                 transparentColor,
-                                appBgColor,
+                                themeProvider.isDarkMode
+                                    ? darkappbgcolor
+                                    : appbgcolor,
                               ],
                             ),
                           ),
@@ -1180,7 +1199,7 @@ class AudioBooksState extends State<AudioBooks> {
             padding: (sectionList?[index].screenLayout ?? "") == "banner_view"
                 ? const EdgeInsets.only(top: 0)
                 : const EdgeInsets.only(top: 5),
-            color: darkappbgcolor,
+            color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1200,7 +1219,9 @@ class AudioBooksState extends State<AudioBooks> {
                           children: [
                             Expanded(
                               child: MyText(
-                                color: Colors.black87,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black87,
                                 text:
                                     sectionList?[index].title.toString() ?? "",
                                 textalign: TextAlign.left,
@@ -1356,7 +1377,7 @@ class AudioBooksState extends State<AudioBooks> {
     if ((continueWatchingList?.length ?? 0) > 0) {
       return Container(
         padding: const EdgeInsets.all(5),
-        color: darkappbgcolor,
+        color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1435,7 +1456,9 @@ class AudioBooksState extends State<AudioBooks> {
                         height: 10,
                       ),
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black87,
                         multilanguage: false,
                         text:
                             ((continueWatchingList?[index].title ?? "").isEmpty)
@@ -1536,7 +1559,8 @@ class AudioBooksState extends State<AudioBooks> {
                     height: 10,
                   ),
                   MyText(
-                    color: Colors.black87,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black87,
                     text: sectionDataList?[index].title.toString() ?? "",
                     textalign: TextAlign.start,
                     fontsizeNormal: 14,
@@ -1655,7 +1679,8 @@ class AudioBooksState extends State<AudioBooks> {
                               sectionDataList?[index].image.toString() ?? ""))),
                   padding: EdgeInsets.all(Constant.isTV ? 2 : 4),
                   child: MyText(
-                    color: Colors.black87,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black87,
                     text: sectionDataList?[index].name.toString() ?? "",
                     textalign: TextAlign.center,
                     fontsizeNormal: 14,
@@ -1722,7 +1747,8 @@ class AudioBooksState extends State<AudioBooks> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      color: Colors.black87,
+                      color:
+                          themeProvider.isDarkMode ? Colors.white : Colors.black,
                       text: sectionDataList?[index].title.toString() ?? "",
                       textalign: TextAlign.left,
                       fontsizeNormal: 16,
@@ -1810,7 +1836,8 @@ class AudioBooksState extends State<AudioBooks> {
                       height: 10,
                     ),
                     MyText(
-                      color: Colors.black87,
+                      color:
+                          themeProvider.isDarkMode ? Colors.white : Colors.black,
                       text:
                           sectionDataList?[index].description.toString() ?? "",
                       textalign: TextAlign.left,
@@ -1834,7 +1861,7 @@ class AudioBooksState extends State<AudioBooks> {
 
   Widget miniSeries(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: (sectionDataList?.length) == 1
           ? Dimens.heightMiniSeries / 3
@@ -1869,7 +1896,7 @@ class AudioBooksState extends State<AudioBooks> {
               width: Dimens.containerwidthMiniSeries,
               margin: const EdgeInsets.all(5),
               padding: const EdgeInsets.only(left: 10),
-              color: appBgColor,
+              color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
               child: Row(
                 children: [
                   ClipRRect(
@@ -1892,7 +1919,9 @@ class AudioBooksState extends State<AudioBooks> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black,
                         text: sectionDataList?[index].title.toString() ?? "",
                         textalign: TextAlign.left,
                         fontsizeNormal: 15,
@@ -1907,7 +1936,9 @@ class AudioBooksState extends State<AudioBooks> {
                         height: 5,
                       ),
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black,
                         text: sectionDataList?[index].title.toString() ?? "",
                         textalign: TextAlign.left,
                         fontsizeNormal: 15,
@@ -1922,7 +1953,9 @@ class AudioBooksState extends State<AudioBooks> {
                         height: 5,
                       ),
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black,
                         text: sectionDataList?[index].title.toString() ?? "",
                         textalign: TextAlign.left,
                         fontsizeNormal: 14,
@@ -1946,7 +1979,7 @@ class AudioBooksState extends State<AudioBooks> {
 
   Widget top10series(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       child: AlignedGridView.count(
         padding: const EdgeInsets.all(15),
@@ -1979,9 +2012,11 @@ class AudioBooksState extends State<AudioBooks> {
                     width: Dimens.top10imgwidth,
                     height: MediaQuery.of(context).size.height * 0.17,
                     margin: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: lightappbgcolor,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: themeProvider.isDarkMode
+                          ? lightBlack
+                          : lightappbgcolor,
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(7),
                       ),
                     ),
@@ -2039,7 +2074,7 @@ class AudioBooksState extends State<AudioBooks> {
 
   Widget contemporyRomance(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: (sectionDataList?.length ?? 0) == 1
           ? Dimens.heightcontemporyRomance / 2
@@ -2091,7 +2126,8 @@ class AudioBooksState extends State<AudioBooks> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
                     text: sectionDataList?[index].title.toString() ?? "",
                     textalign: TextAlign.left,
                     fontsizeNormal: 15,
@@ -2186,14 +2222,16 @@ class AudioBooksState extends State<AudioBooks> {
                         width: MediaQuery.of(context).size.width,
                         height: Dimens.heightLangGen,
                         alignment: Alignment.center,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.center,
                             end: Alignment.bottomCenter,
                             colors: [
                               transparentColor,
                               transparentColor,
-                              appBgColor,
+                              themeProvider.isDarkMode
+                                  ? darkappbgcolor
+                                  : appbgcolor,
                             ],
                           ),
                         ),
@@ -2205,7 +2243,8 @@ class AudioBooksState extends State<AudioBooks> {
               Padding(
                 padding: const EdgeInsets.all(3),
                 child: MyText(
-                  color: white,
+                  color:
+                      themeProvider.isDarkMode ? Colors.white : Colors.black,
                   text: sectionDataList?[index].name.toString() ?? "",
                   textalign: TextAlign.center,
                   fontsizeNormal: 14,
@@ -2226,7 +2265,7 @@ class AudioBooksState extends State<AudioBooks> {
 
   Widget bestSellingStories(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightbestSellingStries,
       child: AlignedGridView.count(
@@ -2274,7 +2313,8 @@ class AudioBooksState extends State<AudioBooks> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
                     text: sectionDataList?[index].title.toString() ?? "",
                     textalign: TextAlign.left,
                     fontsizeNormal: 14,

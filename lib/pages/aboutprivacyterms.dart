@@ -1,3 +1,4 @@
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/sharedpre.dart';
 import 'package:dtpocketfm/utils/utils.dart';
@@ -54,10 +55,11 @@ class _AboutPrivacyTermsState extends State<AboutPrivacyTerms> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     if (kIsWeb) {
       return Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         body: Container(
           constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height,
@@ -69,7 +71,7 @@ class _AboutPrivacyTermsState extends State<AboutPrivacyTerms> {
     } else {
       return Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         appBar:
             Utils.myAppBarWithBack(context, widget.appBarTitle, true, false),
         body: Column(
@@ -124,7 +126,7 @@ class _AboutPrivacyTermsState extends State<AboutPrivacyTerms> {
         if (loadingPercentage < 100)
           LinearProgressIndicator(
             color: complimentryColor,
-            backgroundColor: appBgColor,
+            backgroundColor: themeProvider.getBackgroundColor(),
             value: loadingPercentage / 100.0,
           ),
       ],

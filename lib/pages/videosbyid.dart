@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerutils.dart';
 import 'package:dtpocketfm/utils/constant.dart';
 import 'package:dtpocketfm/utils/dimens.dart';
@@ -108,9 +109,10 @@ class VideosByIDState extends State<VideosByID> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Stack(children: [
       Scaffold(
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,8 +188,9 @@ class VideosByIDState extends State<VideosByID> {
   }
 
   Widget _buildVideoItem() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return RefreshIndicator(
-      backgroundColor: white,
+      backgroundColor: themeProvider.getBackgroundColor(),
       color: complimentryColor,
       displacement: 80,
       onRefresh: () async {
@@ -250,7 +253,7 @@ class VideosByIDState extends State<VideosByID> {
                         height: 10,
                       ),
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.getTextColor(),
                         text: videoByIDProvider.videoDataList?[position].title
                                 .toString() ??
                             "",

@@ -1,4 +1,5 @@
 import 'package:dtpocketfm/provider/seallprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerwidget.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -75,8 +76,9 @@ class _ViewAllState extends State<ViewAll> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: darkappbgcolor,
+      backgroundColor: themeProvider.getBackgroundColor(),
       appBar: Utils.myAppBarWithBack(context, widget.title ?? "", false, false),
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -232,7 +234,7 @@ class _ViewAllState extends State<ViewAll> {
                     height: 10,
                   ),
                   MyText(
-                    color: white,
+                    color: themeProvider.getTextColor(),
                     text: seeAllProvider.contentList?[index].title.toString() ??
                         "",
                     textalign: TextAlign.start,
@@ -329,7 +331,7 @@ class _ViewAllState extends State<ViewAll> {
                 height: 10,
               ),
               MyText(
-                color: white,
+                color: themeProvider.getTextColor(),
                 multilanguage: false,
                 text: ((seeAllProvider.contentList?[index].title ?? "").isEmpty)
                     ? (seeAllProvider.contentList?[index].title.toString() ??
@@ -415,7 +417,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget bigSquare() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightbestSellingStries,
       child: AlignedGridView.count(
@@ -461,7 +463,7 @@ class _ViewAllState extends State<ViewAll> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color: themeProvider.getTextColor(),
                     text: seeAllProvider.contentList?[index].title.toString() ??
                         "",
                     textalign: TextAlign.left,
@@ -543,7 +545,7 @@ class _ViewAllState extends State<ViewAll> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       text:
                           seeAllProvider.contentList?[index].title.toString() ??
                               "",
@@ -633,7 +635,7 @@ class _ViewAllState extends State<ViewAll> {
                       height: 10,
                     ),
                     MyText(
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       text: seeAllProvider.contentList?[index].description
                               .toString() ??
                           "",
@@ -658,7 +660,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget gridView() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       child: AlignedGridView.count(
         crossAxisCount: 1,
@@ -684,7 +686,7 @@ class _ViewAllState extends State<ViewAll> {
               width: Dimens.containerwidthMiniSeries,
               margin: const EdgeInsets.all(5),
               padding: const EdgeInsets.only(left: 10),
-              color: appBgColor,
+              color: themeProvider.getBackgroundColor(),
               child: Row(
                 children: [
                   ClipRRect(
@@ -708,7 +710,7 @@ class _ViewAllState extends State<ViewAll> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyText(
-                        color: white,
+                        color: themeProvider.getTextColor(),
                         text: seeAllProvider.contentList?[index].title
                                 .toString() ??
                             "",
@@ -762,7 +764,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget listViw() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightMiniSeries,
       child: AlignedGridView.count(
@@ -837,9 +839,9 @@ class _ViewAllState extends State<ViewAll> {
                       ),
                       Text(
                         (index + 1).toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 40,
-                          color: white,
+                          color: themeProvider.getTextColor(),
                         ),
                       ),
                     ],
@@ -855,7 +857,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget _landscapeGridView() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       child: AlignedGridView.count(
         crossAxisCount: 2,
@@ -898,7 +900,7 @@ class _ViewAllState extends State<ViewAll> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color: themeProvider.getTextColor(),
                     text: seeAllProvider.contentList?[index].title.toString() ??
                         "",
                     textalign: TextAlign.left,
@@ -980,7 +982,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget verticalGridShimmer() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       child: AlignedGridView.count(
         padding: const EdgeInsets.all(15),
@@ -1056,7 +1058,7 @@ class _ViewAllState extends State<ViewAll> {
 
   Widget bigSquareShimmer() {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.getBackgroundColor(),
       width: MediaQuery.of(context).size.width,
       // height: Dimens.heightbestSellingStries,
       child: AlignedGridView.count(
@@ -1275,7 +1277,7 @@ class _ViewAllState extends State<ViewAll> {
             width: Dimens.containerwidthMiniSeries,
             margin: const EdgeInsets.all(5),
             padding: const EdgeInsets.only(left: 10),
-            color: appBgColor,
+            color: themeProvider.getBackgroundColor(),
             child: Row(
               children: [
                 ShimmerWidget.roundcorner(

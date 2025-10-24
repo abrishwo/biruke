@@ -2,6 +2,7 @@ import 'package:dtpocketfm/pages/bottombar.dart';
 import 'package:dtpocketfm/pages/intro.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/tvpages/webhome.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -41,6 +42,7 @@ class SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return Scaffold(
       body: Container(
@@ -51,9 +53,9 @@ class SplashState extends State<Splash> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              appBgColor,
-              lightBlack,
-              colorPrimaryDark,
+              themeProvider.getBackgroundColor(),
+              themeProvider.getBackgroundColor(),
+              themeProvider.getBackgroundColor(),
             ],
           ),
         ),
@@ -124,9 +126,9 @@ class SplashState extends State<Splash> {
                               ),
                             ],
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.menu_book_rounded,
-                            color: white,
+                            color: themeProvider.getTextColor(),
                             size: 60,
                           ),
                         ),
@@ -143,10 +145,10 @@ class SplashState extends State<Splash> {
                         opacity: value,
                         child: Text(
                           Constant.appName ?? 'BookApp',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: white,
+                            color: themeProvider.getTextColor(),
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -161,11 +163,11 @@ class SplashState extends State<Splash> {
                     builder: (context, double value, child) {
                       return Opacity(
                         opacity: value,
-                        child: const Text(
+                        child: Text(
                           'Discover Amazing Stories',
                           style: TextStyle(
                             fontSize: 16,
-                            color: otherColor,
+                            color: themeProvider.getTextColor(),
                             letterSpacing: 0.5,
                           ),
                         ),
@@ -184,7 +186,8 @@ class SplashState extends State<Splash> {
                           width: 40,
                           height: 40,
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(colorPrimary),
                             strokeWidth: 3,
                           ),
                         ),

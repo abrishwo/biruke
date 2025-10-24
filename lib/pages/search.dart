@@ -6,6 +6,7 @@ import 'package:dtpocketfm/pages/musicdetails.dart';
 import 'package:dtpocketfm/pages/profile.dart';
 import 'package:dtpocketfm/provider/musicdetailprovider.dart';
 import 'package:dtpocketfm/provider/searchprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerutils.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -173,15 +174,16 @@ class SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Stack(children: [
       Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         body: SafeArea(
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: appBgColor,
+            color: themeProvider.getBackgroundColor(),
             child: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -217,7 +219,7 @@ class SearchState extends State<Search> {
                                     children: [
                                       Expanded(
                                         child: MyText(
-                                          color: white,
+                                          color: themeProvider.getTextColor(),
                                           text: "audiobooks",
                                           multilanguage: true,
                                           textalign: TextAlign.center,
@@ -238,8 +240,9 @@ class SearchState extends State<Search> {
                                           height: 2,
                                           color:
                                               searchProvider.selectedIndex == 0
-                                                  ? white
-                                                  : appBgColor,
+                                                  ? themeProvider.getTextColor()
+                                                  : themeProvider
+                                                      .getBackgroundColor(),
                                         ),
                                       ),
                                     ],
@@ -262,7 +265,7 @@ class SearchState extends State<Search> {
                                     children: [
                                       Expanded(
                                         child: MyText(
-                                          color: white,
+                                          color: themeProvider.getTextColor(),
                                           text: "novels",
                                           multilanguage: true,
                                           textalign: TextAlign.center,
@@ -283,8 +286,9 @@ class SearchState extends State<Search> {
                                           height: 2,
                                           color:
                                               searchProvider.selectedIndex == 1
-                                                  ? white
-                                                  : appBgColor,
+                                                  ? themeProvider.getTextColor()
+                                                  : themeProvider
+                                                      .getBackgroundColor(),
                                         ),
                                       ),
                                     ],
@@ -307,7 +311,7 @@ class SearchState extends State<Search> {
                                     children: [
                                       Expanded(
                                         child: MyText(
-                                          color: white,
+                                          color: themeProvider.getTextColor(),
                                           text: "music",
                                           multilanguage: true,
                                           textalign: TextAlign.center,
@@ -328,8 +332,9 @@ class SearchState extends State<Search> {
                                           height: 2,
                                           color:
                                               searchProvider.selectedIndex == 2
-                                                  ? white
-                                                  : appBgColor,
+                                                  ? themeProvider.getTextColor()
+                                                  : themeProvider
+                                                      .getBackgroundColor(),
                                         ),
                                       ),
                                     ],
@@ -352,7 +357,7 @@ class SearchState extends State<Search> {
                                     children: [
                                       Expanded(
                                         child: MyText(
-                                          color: white,
+                                          color: themeProvider.getTextColor(),
                                           text: "artist",
                                           multilanguage: true,
                                           textalign: TextAlign.center,
@@ -373,8 +378,9 @@ class SearchState extends State<Search> {
                                           height: 2,
                                           color:
                                               searchProvider.selectedIndex == 3
-                                                  ? white
-                                                  : appBgColor,
+                                                  ? themeProvider.getTextColor()
+                                                  : themeProvider
+                                                      .getBackgroundColor(),
                                         ),
                                       ),
                                     ],
@@ -397,7 +403,7 @@ class SearchState extends State<Search> {
                                     children: [
                                       Expanded(
                                         child: MyText(
-                                          color: white,
+                                          color: themeProvider.getTextColor(),
                                           text: "users",
                                           textalign: TextAlign.center,
                                           fontsizeNormal: 14,
@@ -418,8 +424,9 @@ class SearchState extends State<Search> {
                                           height: 2,
                                           color:
                                               searchProvider.selectedIndex == 4
-                                                  ? white
-                                                  : appBgColor,
+                                                  ? themeProvider.getTextColor()
+                                                  : themeProvider
+                                                      .getBackgroundColor(),
                                         ),
                                       ),
                                     ],
@@ -481,7 +488,7 @@ class SearchState extends State<Search> {
             height: 55,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             decoration: BoxDecoration(
-              color: textFieldBG,
+              color: themeProvider.getBackgroundColor(),
               // border: Border.all(
               //   color: colorPrimary,
               //   width: 0.5,
@@ -508,18 +515,18 @@ class SearchState extends State<Search> {
                 controller: searchController,
                 keyboardType: TextInputType.text,
                 maxLines: 1,
-                style: const TextStyle(
-                  color: white,
+                style: TextStyle(
+                  color: themeProvider.getTextColor(),
                   fontSize: 16,
                   overflow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w500,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
                   filled: true,
-                  fillColor: textFieldBG,
+                  fillColor: themeProvider.getBackgroundColor(),
                   hintStyle: TextStyle(
-                    color: gray,
+                    color: themeProvider.getTextColor(),
                     fontSize: 15,
                     overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.w500,
@@ -548,7 +555,7 @@ class SearchState extends State<Search> {
                   alignment: Alignment.center,
                   child: MyImage(
                     imagePath: "ic_close.png",
-                    color: white,
+                    color: themeProvider.getTextColor(),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -581,7 +588,7 @@ class SearchState extends State<Search> {
                             alignment: Alignment.center,
                             child: MyImage(
                               imagePath: "ic_voice.png",
-                              color: white,
+                              color: themeProvider.getTextColor(),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -594,7 +601,7 @@ class SearchState extends State<Search> {
                         alignment: Alignment.center,
                         child: MyImage(
                           imagePath: "ic_voice.png",
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -722,7 +729,7 @@ class SearchState extends State<Search> {
                           ),
                           MyText(
                             maxline: 2,
-                            color: white,
+                            color: themeProvider.getTextColor(),
                             text: searchProvider.selectedIndex == 3
                                 ? (searchProvider
                                         .searchcontentlist?[position].userName

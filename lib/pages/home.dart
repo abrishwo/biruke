@@ -28,6 +28,7 @@ import 'package:dtpocketfm/widget/myusernetworkimg.dart';
 import 'package:dtpocketfm/widget/nodata.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
 import 'package:dtpocketfm/provider/sectiondataprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
 import 'package:dtpocketfm/widget/mytext.dart';
@@ -256,8 +257,9 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : Colors.white,
       body: SafeArea(
         child: (kIsWeb || Constant.isTV)
             ? _webAppBarWithDetails()
@@ -325,7 +327,7 @@ class HomeState extends State<Home> {
                     margin: const EdgeInsets.all(5),
                     width: 20,
                     child: MyImage(
-                      color: white,
+                    color: themeProvider.isDarkMode ? white : black,
                       imagePath: "ic_find.png",
                       height: 46,
                       width: 46,
@@ -369,7 +371,7 @@ class HomeState extends State<Home> {
                   },
                   child: MyText(
                     multilanguage: true,
-                    color: Colors.white,
+                    color: themeProvider.isDarkMode ? white : black,
                     text: "home",
                     fontsizeNormal: 15,
                     fontweight: FontWeight.w600,
@@ -395,7 +397,7 @@ class HomeState extends State<Home> {
                           width: MediaQuery.of(context).size.width,
                           height: Dimens.homeTabHeight,
                           padding: const EdgeInsets.only(top: 8, bottom: 0),
-                          color: appBgColor,
+                          color: themeProvider.isDarkMode ? appBgColor : white,
                           child: tabTitle(homeProvider.genresModel.result),
                         ),
                       ],

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dtpocketfm/pages/profile.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/provider/threadprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/dimens.dart';
@@ -68,8 +69,9 @@ class _CreateThreadState extends State<CreateThread> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: darkappbgcolor,
+      backgroundColor: themeProvider.getBackgroundColor(),
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
@@ -83,12 +85,12 @@ class _CreateThreadState extends State<CreateThread> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: darkappbgcolor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         centerTitle: false,
         elevation: 0,
         title: MyText(
           multilanguage: true,
-          color: white,
+          color: themeProvider.getTextColor(),
           text: "new_thread",
           fontsizeNormal: 16,
           fontsizeWeb: 15,
@@ -161,7 +163,7 @@ class _CreateThreadState extends State<CreateThread> {
                                       )));
                         },
                         child: MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           maxline: 1,
                           overflow: TextOverflow.ellipsis,
                           multilanguage: false,
@@ -199,18 +201,18 @@ class _CreateThreadState extends State<CreateThread> {
                     controller: descriptionController,
                     keyboardType: TextInputType.text,
                     maxLines: 1,
-                    style: const TextStyle(
-                      color: white,
+                    style: TextStyle(
+                      color: themeProvider.getTextColor(),
                       fontSize: 16,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w600,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       filled: true,
                       fillColor: transparentColor,
                       hintStyle: TextStyle(
-                        color: otherColor,
+                        color: themeProvider.getTextColor(),
                         fontSize: 14,
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w500,
@@ -250,7 +252,7 @@ class _CreateThreadState extends State<CreateThread> {
         Container(
           height: 60,
           width: MediaQuery.of(context).size.width,
-          color: appBgColor,
+          color: themeProvider.getBackgroundColor(),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
             child: Row(
@@ -258,7 +260,7 @@ class _CreateThreadState extends State<CreateThread> {
               children: [
                 MyText(
                   multilanguage: true,
-                  color: white,
+                  color: themeProvider.getTextColor(),
                   text: "your_followers_can_reply",
                   fontsizeNormal: 14,
                   fontsizeWeb: 15,
@@ -301,7 +303,7 @@ class _CreateThreadState extends State<CreateThread> {
                       borderRadius: BorderRadius.circular(38),
                     ),
                     child: MyText(
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       multilanguage: true,
                       fontsizeWeb: 12,
                       text: "post",
@@ -394,7 +396,7 @@ class _CreateThreadState extends State<CreateThread> {
                               ));
                         },
                         child: MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           maxline: 1,
                           overflow: TextOverflow.ellipsis,
                           multilanguage: false,
@@ -433,18 +435,18 @@ class _CreateThreadState extends State<CreateThread> {
                     controller: descriptionController,
                     keyboardType: TextInputType.text,
                     maxLines: 1,
-                    style: const TextStyle(
-                      color: white,
+                    style: TextStyle(
+                      color: themeProvider.getTextColor(),
                       fontSize: 16,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w600,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       filled: true,
                       fillColor: transparentColor,
                       hintStyle: TextStyle(
-                        color: otherColor,
+                        color: themeProvider.getTextColor(),
                         fontSize: 14,
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w500,
@@ -491,7 +493,7 @@ class _CreateThreadState extends State<CreateThread> {
         Container(
           height: 60,
           width: MediaQuery.of(context).size.width,
-          color: appBgColor,
+          color: themeProvider.getBackgroundColor(),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
             child: Row(
@@ -499,7 +501,7 @@ class _CreateThreadState extends State<CreateThread> {
               children: [
                 MyText(
                   multilanguage: true,
-                  color: white,
+                  color: themeProvider.getTextColor(),
                   text: "your_followers_can_reply",
                   fontsizeNormal: 14,
                   fontsizeWeb: 15,
@@ -543,7 +545,7 @@ class _CreateThreadState extends State<CreateThread> {
                       borderRadius: BorderRadius.circular(38),
                     ),
                     child: MyText(
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       multilanguage: true,
                       fontsizeWeb: 12,
                       text: "post",
@@ -561,9 +563,10 @@ class _CreateThreadState extends State<CreateThread> {
   }
 
   void pickImageDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     showModalBottomSheet(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.getBackgroundColor(),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -576,7 +579,7 @@ class _CreateThreadState extends State<CreateThread> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(23),
-              color: lightBlack,
+              color: themeProvider.getBackgroundColor(),
               child: Column(
                 children: [
                   Container(
@@ -586,7 +589,7 @@ class _CreateThreadState extends State<CreateThread> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "addphoto",
                           textalign: TextAlign.center,
                           fontsizeNormal: 16,
@@ -637,7 +640,7 @@ class _CreateThreadState extends State<CreateThread> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: MyText(
-                        color: white,
+                        color: themeProvider.getTextColor(),
                         fontsizeWeb: 15,
                         text: "choosegallry",
                         textalign: TextAlign.center,
@@ -676,7 +679,7 @@ class _CreateThreadState extends State<CreateThread> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           fontsizeWeb: 15,
                           text: "cancel",
                           textalign: TextAlign.center,

@@ -27,6 +27,7 @@ import 'package:dtpocketfm/utils/dimens.dart';
 import 'package:dtpocketfm/widget/myusernetworkimg.dart';
 import 'package:dtpocketfm/widget/nodata.dart';
 import 'package:dtpocketfm/provider/homeprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
 import 'package:dtpocketfm/widget/mytext.dart';
@@ -51,6 +52,7 @@ class Novel extends StatefulWidget {
 }
 
 class NovelState extends State<Novel> {
+  late ThemeProvider themeProvider;
   late ProfileProvider profileProvider;
   late ScrollController _scrollController;
   late NovelSectionDataProvider sectionDataProvider;
@@ -258,8 +260,9 @@ class NovelState extends State<Novel> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       body: SafeArea(
         child: (kIsWeb || Constant.isTV)
             ? _webAppBarWithDetails()
@@ -352,7 +355,8 @@ class NovelState extends State<Novel> {
                 ),
               ],
               automaticallyImplyLeading: false,
-              backgroundColor: const Color(0xFF1DB954),
+              backgroundColor:
+                  themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
               toolbarHeight: 65,
               title: Container(
                 width: MediaQuery.of(context).size.width,
@@ -369,7 +373,7 @@ class NovelState extends State<Novel> {
                   },
                   child: MyText(
                     multilanguage: true,
-                    color: white,
+                    color: themeProvider.isDarkMode ? white : black,
                     text: "novel",
                     fontsizeNormal: 15,
                     fontweight: FontWeight.w600,
@@ -397,7 +401,9 @@ class NovelState extends State<Novel> {
                           width: MediaQuery.of(context).size.width,
                           height: Dimens.homeTabHeight,
                           padding: const EdgeInsets.only(top: 8, bottom: 0),
-                          color: appBgColor,
+                          color: themeProvider.isDarkMode
+                              ? darkappbgcolor
+                              : appbgcolor,
                           child: tabTitle(homeProvider.genresModel.result),
                         ),
                       ],
@@ -469,18 +475,25 @@ class NovelState extends State<Novel> {
                 child: Container(
                   constraints: const BoxConstraints(maxHeight: 35),
                   decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 2,
-                              color: homeProvider.selectedIndex == index
-                                  ? primaryDark
-                                  : transparentColor))),
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 2,
+                        color: homeProvider.selectedIndex == index
+                            ? (themeProvider.isDarkMode
+                                ? Colors.white
+                                : primaryDark)
+                            : Colors.transparent,
+                      ),
+                    ),
+                  ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.fromLTRB(13, 0, 13, 0),
                   child: MyText(
                     color: homeProvider.selectedIndex == index
-                        ? primaryDark
-                        : Colors.black54,
+                        ? (themeProvider.isDarkMode ? Colors.white : primaryDark)
+                        : (themeProvider.isDarkMode
+                            ? Colors.white54
+                            : Colors.black54),
                     multilanguage: false,
                     text: index == 0
                         ? "Home"
@@ -509,8 +522,8 @@ class NovelState extends State<Novel> {
     return Container(
       alignment: Alignment.centerLeft,
       height: 160,
-      decoration: const BoxDecoration(
-        color: darkappbgcolor,
+      decoration: BoxDecoration(
+        color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         // border: Border(
         //     top: BorderSide(color: edtBG, width: 2),
         //     bottom: BorderSide(color: edtBG, width: 2)),
@@ -558,7 +571,9 @@ class NovelState extends State<Novel> {
                         MyText(
                           textalign: TextAlign.center,
                           maxline: 2,
-                          color: Colors.black87,
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black87,
                           text: sectionTypeList?[index].title.toString() ?? "",
                           fontsizeNormal: 12,
                           fontweight: FontWeight.w600,
@@ -579,11 +594,11 @@ class NovelState extends State<Novel> {
     return Container(
       height: 130,
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         // border: Border(
         //     top: BorderSide(color: edtBG, width: 2),
         //     bottom: BorderSide(color: edtBG, width: 2)),
-        color: darkappbgcolor,
+        color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       ),
       child: ListView.separated(
         itemCount: (sectionTypeList?.length ?? 0),
@@ -621,7 +636,8 @@ class NovelState extends State<Novel> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15.0, bottom: 15),
                   child: Card(
-                    color: appBgColor,
+                    color:
+                        themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                     elevation: 10,
                     shadowColor: primaryDark,
                     child: Container(
@@ -653,7 +669,9 @@ class NovelState extends State<Novel> {
                             height: 5,
                           ),
                           MyText(
-                            color: Colors.black87,
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Colors.black87,
                             multilanguage: false,
                             text: (sectionTypeList?[index].title.toString() ??
                                 ""),
@@ -683,7 +701,8 @@ class NovelState extends State<Novel> {
       width: MediaQuery.of(context).size.width,
       constraints: const BoxConstraints.expand(),
       child: RefreshIndicator(
-        backgroundColor: white,
+        backgroundColor:
+            themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         color: complimentryColor,
         displacement: 80,
         onRefresh: () async {
@@ -891,14 +910,16 @@ class NovelState extends State<Novel> {
                           width: MediaQuery.of(context).size.width,
                           height: Dimens.homeBanner,
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.center,
                               end: Alignment.bottomCenter,
                               colors: [
                                 transparentColor,
                                 transparentColor,
-                                appBgColor,
+                                themeProvider.isDarkMode
+                                    ? darkappbgcolor
+                                    : appbgcolor,
                               ],
                             ),
                           ),
@@ -1226,7 +1247,7 @@ class NovelState extends State<Novel> {
             padding: (sectionList?[index].screenLayout ?? "") == "banner_view"
                 ? const EdgeInsets.only(top: 0)
                 : const EdgeInsets.only(top: 5),
-            color: darkappbgcolor,
+            color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1246,7 +1267,9 @@ class NovelState extends State<Novel> {
                           children: [
                             Expanded(
                               child: MyText(
-                                color: Colors.black87,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black87,
                                 text:
                                     sectionList?[index].title.toString() ?? "",
                                 textalign: TextAlign.left,
@@ -1379,7 +1402,7 @@ class NovelState extends State<Novel> {
     if ((continueWatchingList?.length ?? 0) > 0) {
       return Container(
         padding: const EdgeInsets.all(5),
-        color: darkappbgcolor,
+        color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1465,7 +1488,9 @@ class NovelState extends State<Novel> {
                         height: 10,
                       ),
                       MyText(
-                        color: Colors.black87,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black87,
                         multilanguage: false,
                         text:
                             ((continueWatchingList?[index].title ?? "").isEmpty)
@@ -1516,7 +1541,7 @@ class NovelState extends State<Novel> {
 
   Widget trendingNovel(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: (sectionDataList?.length ?? 0) > 2
           ? Dimens.heightTrendingNovel
@@ -1573,7 +1598,9 @@ class NovelState extends State<Novel> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          color: Colors.black87,
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black87,
                           text: sectionDataList?[index].title.toString() ?? "",
                           textalign: TextAlign.left,
                           fontsizeNormal: 14,
@@ -1920,7 +1947,8 @@ class NovelState extends State<Novel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      color: white,
+                      color:
+                          themeProvider.isDarkMode ? Colors.white : Colors.black,
                       text: sectionDataList?[index].title.toString() ?? "",
                       textalign: TextAlign.left,
                       fontsizeNormal: 16,
@@ -2008,7 +2036,8 @@ class NovelState extends State<Novel> {
                       height: 10,
                     ),
                     MyText(
-                      color: white,
+                      color:
+                          themeProvider.isDarkMode ? Colors.white : Colors.black,
                       text:
                           sectionDataList?[index].description.toString() ?? "",
                       textalign: TextAlign.left,
@@ -2032,7 +2061,7 @@ class NovelState extends State<Novel> {
 
   Widget miniSeries(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: (sectionDataList?.length) == 1
           ? Dimens.heightMiniSeries / 3
@@ -2068,7 +2097,7 @@ class NovelState extends State<Novel> {
               width: Dimens.containerwidthMiniSeries,
               margin: const EdgeInsets.all(5),
               padding: const EdgeInsets.only(left: 10),
-              color: appBgColor,
+              color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
               child: Row(
                 children: [
                   ClipRRect(
@@ -2091,7 +2120,9 @@ class NovelState extends State<Novel> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MyText(
-                        color: white,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black,
                         text: sectionDataList?[index].title.toString() ?? "",
                         textalign: TextAlign.left,
                         fontsizeNormal: 15,
@@ -2143,7 +2174,7 @@ class NovelState extends State<Novel> {
 
   Widget top10series(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       child: AlignedGridView.count(
         padding: const EdgeInsets.all(15),
@@ -2180,9 +2211,11 @@ class NovelState extends State<Novel> {
                     width: Dimens.top10imgwidth,
                     height: MediaQuery.of(context).size.height * 0.17,
                     margin: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: lightappbgcolor,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: themeProvider.isDarkMode
+                          ? lightBlack
+                          : lightappbgcolor,
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(7),
                       ),
                     ),
@@ -2240,7 +2273,7 @@ class NovelState extends State<Novel> {
 
   Widget contemporyRomance(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: (sectionDataList?.length ?? 0) == 1
           ? Dimens.heightcontemporyRomance / 2
@@ -2294,7 +2327,8 @@ class NovelState extends State<Novel> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
                     text: sectionDataList?[index].title.toString() ?? "",
                     textalign: TextAlign.left,
                     fontsizeNormal: 15,
@@ -2389,14 +2423,16 @@ class NovelState extends State<Novel> {
                         width: MediaQuery.of(context).size.width,
                         height: Dimens.heightLangGen,
                         alignment: Alignment.center,
-                        decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.center,
                             end: Alignment.bottomCenter,
                             colors: [
                               transparentColor,
                               transparentColor,
-                              appBgColor,
+                                themeProvider.isDarkMode
+                                    ? darkappbgcolor
+                                    : appbgcolor,
                             ],
                           ),
                         ),
@@ -2429,7 +2465,7 @@ class NovelState extends State<Novel> {
 
   Widget bestSellingStories(int? upcomingType, List<Datum>? sectionDataList) {
     return Container(
-      color: darkappbgcolor,
+      color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       width: MediaQuery.of(context).size.width,
       height: Dimens.heightbestSellingStries,
       child: AlignedGridView.count(
@@ -2479,7 +2515,8 @@ class NovelState extends State<Novel> {
                     height: 5,
                   ),
                   MyText(
-                    color: white,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
                     text: sectionDataList?[index].name.toString() ?? "",
                     textalign: TextAlign.left,
                     fontsizeNormal: 14,

@@ -4,6 +4,7 @@ import 'package:dtpocketfm/utils/adhelper.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
 import 'package:dtpocketfm/utils/dimens.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/sharedpre.dart';
 import 'package:dtpocketfm/utils/utils.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
@@ -89,8 +90,9 @@ class _ViewRewardsState extends State<ViewRewards> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.getBackgroundColor(),
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
@@ -104,12 +106,12 @@ class _ViewRewardsState extends State<ViewRewards> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         centerTitle: false,
         elevation: 0,
         title: MyText(
           multilanguage: true,
-          color: white,
+          color: themeProvider.getTextColor(),
           text: "my_rewards",
           fontsizeNormal: 16,
           fontsizeWeb: 15,
@@ -175,7 +177,8 @@ class _ViewRewardsState extends State<ViewRewards> {
             padding: const EdgeInsets.all(10),
             height: Dimens.dailyrewardHeight,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13), color: appBgColor),
+                borderRadius: BorderRadius.circular(13),
+                color: themeProvider.getBackgroundColor()),
             child: Consumer<RewardProvider>(
               builder: (context, rewardProvider, child) {
                 if (rewardProvider.isLoading) {
@@ -226,7 +229,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                                     MyText(
                                       fontsizeWeb: 14,
                                       multilanguage: false,
-                                      color: white,
+                                      color: themeProvider.getTextColor(),
                                       text:
                                           "${rewardProvider.earncoinsModel.dailyLogin?[index].value.toString() ?? ""} coins",
                                       fontsizeNormal: 12,
@@ -339,7 +342,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                                 shape: BoxShape.rectangle,
                               ),
                               child: MyText(
-                                color: white,
+                                color: themeProvider.getTextColor(),
                                 maxline: 1,
                                 overflow: TextOverflow.ellipsis,
                                 multilanguage: true,
@@ -417,7 +420,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                 Positioned(
                     top: 60,
                     child: Container(
-                      color: profileBottomSheetBG,
+                      color: themeProvider.getBackgroundColor(),
                       height: 20,
                       width: MediaQuery.of(context).size.width,
                     ))
@@ -471,10 +474,10 @@ class _ViewRewardsState extends State<ViewRewards> {
                     height: Dimens.coinPacksContHeight,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: darkappbgcolor,
+                        color: themeProvider.getBackgroundColor(),
                         border: Border.all(
                           width: 0.2,
-                          color: white,
+                          color: themeProvider.getTextColor(),
                         ),
                         borderRadius: BorderRadius.circular(5)),
                     child: Row(
@@ -496,7 +499,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                                   ),
                                   MyText(
                                     fontsizeWeb: 15,
-                                    color: white,
+                                    color: themeProvider.getTextColor(),
                                     multilanguage: false,
                                     text:
                                         "${rewardProvider.transactionlist?[index].coin.toString() ?? ""} Coins",
@@ -536,7 +539,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                             borderRadius: BorderRadius.circular(38),
                           ),
                           child: MyText(
-                            color: white,
+                            color: themeProvider.getTextColor(),
                             multilanguage: false,
                             fontsizeWeb: 15,
                             text:
@@ -613,10 +616,10 @@ class _ViewRewardsState extends State<ViewRewards> {
                         height: Dimens.coinPacksContHeight,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            color: darkappbgcolor,
+                            color: themeProvider.getBackgroundColor(),
                             border: Border.all(
                               width: 0.2,
-                              color: white,
+                              color: themeProvider.getTextColor(),
                             ),
                             borderRadius: BorderRadius.circular(5)),
                         child: Row(
@@ -639,7 +642,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                                       ),
                                       MyText(
                                         fontsizeWeb: 15,
-                                        color: white,
+                                        color: themeProvider.getTextColor(),
                                         multilanguage: false,
                                         text:
                                             "${rewardProvider.transactionlist?[index].coin.toString() ?? ""} Coins",
@@ -680,7 +683,7 @@ class _ViewRewardsState extends State<ViewRewards> {
                                 borderRadius: BorderRadius.circular(38),
                               ),
                               child: MyText(
-                                color: white,
+                                color: themeProvider.getTextColor(),
                                 multilanguage: false,
                                 fontsizeWeb: 15,
                                 text:
@@ -746,10 +749,10 @@ class _ViewRewardsState extends State<ViewRewards> {
               height: Dimens.coinPacksContHeight,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  color: darkappbgcolor,
+                  color: themeProvider.getBackgroundColor(),
                   border: Border.all(
                     width: 0.2,
-                    color: white,
+                    color: themeProvider.getTextColor(),
                   ),
                   borderRadius: BorderRadius.circular(5)),
               child: Row(
@@ -842,10 +845,10 @@ class _ViewRewardsState extends State<ViewRewards> {
                 height: Dimens.coinPacksContHeight,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: darkappbgcolor,
+                    color: themeProvider.getBackgroundColor(),
                     border: Border.all(
                       width: 0.2,
-                      color: white,
+                      color: themeProvider.getTextColor(),
                     ),
                     borderRadius: BorderRadius.circular(5)),
                 child: Row(

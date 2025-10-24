@@ -20,6 +20,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
+import '../provider/themeprovider.dart';
+
 class MyWallet extends StatefulWidget {
   const MyWallet({super.key});
 
@@ -28,6 +30,7 @@ class MyWallet extends StatefulWidget {
 }
 
 class _MyWalletState extends State<MyWallet> {
+  late ThemeProvider themeProvider;
   late ProfileProvider profileProvider;
   late HomeProvider homeProvider;
   late ScrollController _scrollController;
@@ -161,8 +164,9 @@ class _MyWalletState extends State<MyWallet> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
@@ -176,13 +180,14 @@ class _MyWalletState extends State<MyWallet> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: appBgColor,
+        backgroundColor:
+            themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         centerTitle: false,
         elevation: 0,
         title: MyText(
           multilanguage: true,
           fontsizeWeb: 18,
-          color: white,
+          color: themeProvider.isDarkMode ? white : black,
           text: "my_wallet",
           fontsizeNormal: 20,
           fontweight: FontWeight.w600,
@@ -199,7 +204,7 @@ class _MyWalletState extends State<MyWallet> {
                 padding: const EdgeInsets.all(15.0),
                 child: MyText(
                   multilanguage: true,
-                  color: white,
+                  color: themeProvider.isDarkMode ? white : black,
                   text: "coin_packs",
                   fontsizeWeb: 15,
                   fontsizeNormal: 15,
@@ -702,12 +707,14 @@ class _MyWalletState extends State<MyWallet> {
                   child: Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     elevation: 3,
-                    color: subscriptionBG,
+                    color:
+                        themeProvider.isDarkMode ? subscriptionBG : appbgcolor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Container(
-                      color: black1,
+                      color:
+                          themeProvider.isDarkMode ? black1 : transparentColor,
                       // width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.only(
                           left: 18, right: 18, top: 10, bottom: 10),
@@ -719,7 +726,9 @@ class _MyWalletState extends State<MyWallet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 MyText(
-                                  color: white,
+                                  color: themeProvider.isDarkMode
+                                      ? white
+                                      : black,
                                   text: subscriptionProvider.subscriptionModel
                                           .result?[index].name ??
                                       "",

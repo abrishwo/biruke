@@ -13,6 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pinput/pinput.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class OTPVerify extends StatefulWidget {
 }
 
 class OTPVerifyState extends State<OTPVerify> {
+  late ThemeProvider themeProvider;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late ProgressDialog prDialog;
   SharedPre sharePref = SharedPre();
@@ -71,8 +73,9 @@ class OTPVerifyState extends State<OTPVerify> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -92,9 +95,11 @@ class OTPVerifyState extends State<OTPVerify> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        appBgColor.withOpacity(0.8),
-                        appBgColor.withOpacity(0.8),
-                        appBgColor
+                        (themeProvider.isDarkMode ? darkappbgcolor : appbgcolor)
+                            .withOpacity(0.8),
+                        (themeProvider.isDarkMode ? darkappbgcolor : appbgcolor)
+                            .withOpacity(0.8),
+                        (themeProvider.isDarkMode ? darkappbgcolor : appbgcolor)
                       ]),
                 ),
               ),
@@ -127,7 +132,7 @@ class OTPVerifyState extends State<OTPVerify> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       MyText(
-                        color: white,
+                        color: themeProvider.isDarkMode ? white : black,
                         text: "code_sent_desc",
                         fontsizeNormal: 15,
                         fontweight: FontWeight.w500,
@@ -170,7 +175,7 @@ class OTPVerifyState extends State<OTPVerify> {
                             // borderRadius: BorderRadius.circular(5),
                           ),
                           textStyle: GoogleFonts.montserrat(
-                            color: white,
+                            color: themeProvider.isDarkMode ? white : black,
                             fontSize: 16,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.w800,

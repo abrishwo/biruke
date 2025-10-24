@@ -12,6 +12,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
+import '../provider/themeprovider.dart';
+
 class Find extends StatefulWidget {
   const Find({super.key});
 
@@ -20,6 +22,7 @@ class Find extends StatefulWidget {
 }
 
 class FindState extends State<Find> {
+  late ThemeProvider themeProvider;
   final searchController = TextEditingController();
   late FindProvider findProvider = FindProvider();
   final SpeechToText _speechToText = SpeechToText();
@@ -117,13 +120,15 @@ class FindState extends State<Find> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Stack(children: [
       Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         body: SafeArea(
           child: RefreshIndicator(
-            backgroundColor: white,
+            backgroundColor:
+                themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
             color: complimentryColor,
             displacement: 80,
             onRefresh: () async {
@@ -248,7 +253,9 @@ class FindState extends State<Find> {
                                       left: 20, right: 20),
                                   alignment: Alignment.centerLeft,
                                   child: MyText(
-                                    color: white,
+                                    color: themeProvider.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
                                     text: "explore_category",
                                     textalign: TextAlign.center,
                                     fontsizeNormal: 15,
@@ -329,7 +336,10 @@ class FindState extends State<Find> {
                                               children: [
                                                 Expanded(
                                                   child: MyText(
-                                                    color: otherColor,
+                                                    color:
+                                                        themeProvider.isDarkMode
+                                                            ? Colors.white
+                                                            : otherColor,
                                                     text: findProvider
                                                             .genresModel
                                                             .result?[position]
@@ -587,13 +597,13 @@ class FindState extends State<Find> {
             height: 55,
             margin: const EdgeInsets.fromLTRB(10, 5, 20, 5),
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            decoration: const BoxDecoration(
-              color: textFieldBG,
+            decoration: BoxDecoration(
+              color: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
               // border: Border.all(
               //   color: primaryLight,
               //   width: 0.5,
               // ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),
             ),
@@ -637,17 +647,20 @@ class FindState extends State<Find> {
                       controller: searchController,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
-                      style: const TextStyle(
-                        color: white,
+                      style: TextStyle(
+                        color:
+                            themeProvider.isDarkMode ? Colors.white : Colors.black,
                         fontSize: 15,
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w500,
                       ),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         filled: true,
-                        fillColor: textFieldBG,
-                        hintStyle: TextStyle(
+                        fillColor: themeProvider.isDarkMode
+                            ? darkappbgcolor
+                            : appbgcolor,
+                        hintStyle: const TextStyle(
                           color: gray,
                           fontSize: 15,
                           overflow: TextOverflow.ellipsis,

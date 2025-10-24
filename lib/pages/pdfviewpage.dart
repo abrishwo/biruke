@@ -1,6 +1,7 @@
 import 'package:dtpocketfm/provider/novelsectiondataprovider.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/widget/mytext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class PdfViewPage extends StatefulWidget {
 }
 
 class _PdfViewPageState extends State<PdfViewPage> {
+  late ThemeProvider themeProvider;
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   late NovelSectionDataProvider novelpovider;
   late PdfViewerController _pdfViewerController;
@@ -46,6 +48,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return PopScope(
       onPopInvoked: (didPop) async {
         if (_pdfViewerController.pageNumber != _pdfViewerController.pageCount) {
@@ -64,8 +67,9 @@ class _PdfViewPageState extends State<PdfViewPage> {
         }
       },
       child: Scaffold(
+        backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
         appBar: AppBar(
-          backgroundColor: appBgColor,
+          backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
           leading: InkWell(
             onTap: () async {
               if (_pdfViewerController.pageNumber !=
@@ -87,16 +91,16 @@ class _PdfViewPageState extends State<PdfViewPage> {
           ),
           title: MyText(
             fontsizeWeb: 18,
-            color: white,
+            color: themeProvider.isDarkMode ? white : black,
             text: widget.title.toString(),
             fontsizeNormal: 18,
             fontweight: FontWeight.w600,
           ),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.bookmark,
-                color: white,
+                color: themeProvider.isDarkMode ? white : black,
                 semanticLabel: 'Bookmark',
               ),
               onPressed: () {
@@ -104,18 +108,18 @@ class _PdfViewPageState extends State<PdfViewPage> {
               },
             ),
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.first_page,
-                color: white,
+                color: themeProvider.isDarkMode ? white : black,
               ),
               onPressed: () {
                 _pdfViewerController.firstPage();
               },
             ),
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.last_page,
-                color: white,
+                color: themeProvider.isDarkMode ? white : black,
               ),
               onPressed: () {
                 _pdfViewerController.lastPage();

@@ -13,6 +13,7 @@ import 'package:dtpocketfm/widget/mytext.dart';
 import 'package:dtpocketfm/widget/nodata.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 //import 'package:social_share/social_share.dart';
@@ -26,6 +27,7 @@ class MyWatchlist extends StatefulWidget {
 
 class _MyWatchlistState extends State<MyWatchlist>
     with TickerProviderStateMixin {
+  late ThemeProvider themeProvider;
   late WatchlistProvider watchlistProvider;
   late ScrollController _scrollController;
 
@@ -70,15 +72,17 @@ class _MyWatchlistState extends State<MyWatchlist>
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
       appBar: Utils.myAppBarWithBack(context, "watchlist", true, true),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                backgroundColor: white,
+                backgroundColor:
+                    themeProvider.isDarkMode ? darkappbgcolor : appbgcolor,
                 color: complimentryColor,
                 displacement: 80,
                 onRefresh: () async {
@@ -117,7 +121,9 @@ class _MyWatchlistState extends State<MyWatchlist>
                                           children: [
                                             Expanded(
                                               child: MyText(
-                                                color: white,
+                                                color: themeProvider.isDarkMode
+                                                    ? white
+                                                    : black,
                                                 text: "audiobooks",
                                                 multilanguage: true,
                                                 textalign: TextAlign.center,
@@ -140,8 +146,12 @@ class _MyWatchlistState extends State<MyWatchlist>
                                                 color: watchlistProvider
                                                             .selectedIndex ==
                                                         0
-                                                    ? white
-                                                    : appBgColor,
+                                                    ? (themeProvider.isDarkMode
+                                                        ? white
+                                                        : black)
+                                                    : (themeProvider.isDarkMode
+                                                        ? darkappbgcolor
+                                                        : appbgcolor),
                                               ),
                                             ),
                                           ],
@@ -165,7 +175,9 @@ class _MyWatchlistState extends State<MyWatchlist>
                                           children: [
                                             Expanded(
                                               child: MyText(
-                                                color: white,
+                                                color: themeProvider.isDarkMode
+                                                    ? white
+                                                    : black,
                                                 text: "novels",
                                                 multilanguage: true,
                                                 textalign: TextAlign.center,
@@ -188,8 +200,12 @@ class _MyWatchlistState extends State<MyWatchlist>
                                                 color: watchlistProvider
                                                             .selectedIndex ==
                                                         1
-                                                    ? white
-                                                    : appBgColor,
+                                                    ? (themeProvider.isDarkMode
+                                                        ? white
+                                                        : black)
+                                                    : (themeProvider.isDarkMode
+                                                        ? darkappbgcolor
+                                                        : appbgcolor),
                                               ),
                                             ),
                                           ],
@@ -282,7 +298,7 @@ class _MyWatchlistState extends State<MyWatchlist>
     return Container(
       width: MediaQuery.of(context).size.width,
       constraints: BoxConstraints(minHeight: Dimens.heightWatchlist),
-      color: lightBlack,
+      color: themeProvider.isDarkMode ? lightBlack : white,
       child: Row(
         children: [
           _buildImage(position),
@@ -351,7 +367,7 @@ class _MyWatchlistState extends State<MyWatchlist>
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(8),
               child: MyText(
-                color: white,
+                color: themeProvider.isDarkMode ? white : black,
                 text: watchlistProvider.watchDataList?[position].title ?? "",
                 textalign: TextAlign.start,
                 maxline: 2,
@@ -390,7 +406,7 @@ class _MyWatchlistState extends State<MyWatchlist>
   _buildVideoMoreDialog(position) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.isDarkMode ? lightBlack : white,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
@@ -412,7 +428,7 @@ class _MyWatchlistState extends State<MyWatchlist>
                     multilanguage: false,
                     fontsizeNormal: 18,
                     fontsizeWeb: 20,
-                    color: white,
+                    color: themeProvider.isDarkMode ? white : black,
                     fontstyle: FontStyle.normal,
                     fontweight: FontWeight.w700,
                     maxline: 2,
@@ -522,7 +538,7 @@ class _MyWatchlistState extends State<MyWatchlist>
   _buildShareWithDialog(position) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.isDarkMode ? lightBlack : white,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
@@ -543,7 +559,7 @@ class _MyWatchlistState extends State<MyWatchlist>
                     multilanguage: false,
                     fontsizeNormal: 18,
                     fontsizeWeb: 20,
-                    color: white,
+                    color: themeProvider.isDarkMode ? white : black,
                     fontstyle: FontStyle.normal,
                     fontweight: FontWeight.w700,
                     maxline: 2,
@@ -650,7 +666,7 @@ class _MyWatchlistState extends State<MyWatchlist>
             height: Dimens.dialogIconSize,
             imagePath: icon,
             fit: BoxFit.contain,
-            color: white,
+            color: themeProvider.isDarkMode ? white : black,
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -659,7 +675,7 @@ class _MyWatchlistState extends State<MyWatchlist>
               multilanguage: isMultilang,
               fontsizeNormal: 14,
               fontsizeWeb: 16,
-              color: white,
+              color: themeProvider.isDarkMode ? white : black,
               fontstyle: FontStyle.normal,
               fontweight: FontWeight.w600,
               maxline: 1,

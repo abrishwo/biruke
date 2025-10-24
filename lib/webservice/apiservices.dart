@@ -112,10 +112,27 @@ class ApiService {
       requestData['image'] = base64Image;
     }
     
+    FormData formData = FormData.fromMap({
+      'type': type,
+      'email': email,
+      'full_name': name,
+      'device_type': deviceType,
+      "image": (profileImg != null && profileImg.path.isNotEmpty)
+          ? await MultipartFile.fromFile(
+              profileImg.path,
+              filename: basename(profileImg.path),
+            )
+          : null,
+    });
+
     Response response = await dio.post(
       '$baseUrl$gmailLogin',
-      options: optHeaders,
-      data: requestData,
+      data: formData,
+      options: Options(
+        headers: <String, dynamic>{
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
     );
 
     loginModel = LoginRegisterModel.fromJson(response.data);

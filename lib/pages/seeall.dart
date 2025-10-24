@@ -2,6 +2,7 @@ import 'package:dtpocketfm/pages/loginsocial.dart';
 import 'package:dtpocketfm/pages/musicdetails.dart';
 import 'package:dtpocketfm/provider/musicdetailprovider.dart';
 import 'package:dtpocketfm/provider/seallprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerwidget.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/constant.dart';
@@ -81,11 +82,12 @@ class _SeeAllState extends State<SeeAll> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: [
         Expanded(
           child: Scaffold(
-            backgroundColor: appBgColor,
+            backgroundColor: themeProvider.getBackgroundColor(),
             appBar: Utils()
                 .otherPageAppBar(context, widget.title.toString(), false),
             body: SingleChildScrollView(
@@ -215,7 +217,7 @@ class _SeeAllState extends State<SeeAll> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyText(
-                      color: colorAccent,
+                      color: themeProvider.getTextColor(),
                       multilanguage: false,
                       text: sectionDataList?[index].title.toString() ?? "",
                       textalign: TextAlign.left,
@@ -228,7 +230,7 @@ class _SeeAllState extends State<SeeAll> {
                       fontstyle: FontStyle.normal),
                   const SizedBox(height: 8),
                   MyText(
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       multilanguage: false,
                       text:
                           sectionDataList?[index].description.toString() ?? "",

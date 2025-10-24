@@ -1,4 +1,5 @@
 import 'package:dtpocketfm/provider/avatarprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerutils.dart';
 import 'package:dtpocketfm/utils/color.dart';
 import 'package:dtpocketfm/utils/utils.dart';
@@ -42,12 +43,13 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return PopScope(
       onPopInvoked: (didPop) {
         onBackPressed();
       },
       child: Scaffold(
-        backgroundColor: appBgColor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         appBar:
             Utils.myAppBarWithBack(context, "changeprofileimage", true, true),
         body: SafeArea(
@@ -68,7 +70,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
           avatarProvider.avatarModel.result != null) {
         if ((avatarProvider.avatarModel.result?.length ?? 0) > 0) {
           return RefreshIndicator(
-            backgroundColor: white,
+            backgroundColor: themeProvider.getBackgroundColor(),
             color: complimentryColor,
             displacement: 80,
             onRefresh: () async {

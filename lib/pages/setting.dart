@@ -94,17 +94,18 @@ class SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Stack(children: [
       Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: themeProvider.getBackgroundColor(),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF1DB954), // Spotify green
+          backgroundColor: themeProvider.getBackgroundColor(),
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: const Text(
+          title: Text(
             "Settings",
             style: TextStyle(
-              color: Colors.white,
+              color: themeProvider.getTextColor(),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -117,7 +118,7 @@ class SettingState extends State<Setting> {
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.all(22),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeProvider.getBackgroundColor(),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -583,7 +584,7 @@ class SettingState extends State<Setting> {
                         children: [
                           MyText(
                             maxline: 1,
-                            color: white,
+                            color: themeProvider.getTextColor(),
                             text: profileProvider
                                     .profileModel.result?[0].userName
                                     .toString() ??
@@ -712,7 +713,7 @@ class SettingState extends State<Setting> {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.grey[50],
+          color: themeProvider.getBackgroundColor(),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey[200]!, width: 1),
         ),
@@ -728,7 +729,7 @@ class SettingState extends State<Setting> {
                     fit: BoxFit.fill,
                   )
                 : MyImage(
-                    color: const Color(0xFF1DB954), // Spotify green for icons
+                    color: themeProvider.getTextColor(),
                     imagePath: imagePath,
                     height: 20,
                     width: 20,
@@ -738,7 +739,7 @@ class SettingState extends State<Setting> {
             ),
             Expanded(
               child: MyText(
-                color: Colors.black87, // Dark text on white background
+                color: themeProvider.getTextColor(),
                 text: title,
                 fontsizeNormal: 15,
                 fontsizeWeb: 15,
@@ -750,9 +751,9 @@ class SettingState extends State<Setting> {
                 fontstyle: FontStyle.normal,
               ),
             ),
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios,
-              color: Color(0xFF1DB954), // Spotify green arrow
+              color: themeProvider.getTextColor(),
               size: 16,
             ),
           ],
@@ -791,7 +792,7 @@ class SettingState extends State<Setting> {
                   ),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    color: lightBlack,
+                    color: themeProvider.getBackgroundColor(),
                     padding: const EdgeInsets.all(23),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -803,7 +804,7 @@ class SettingState extends State<Setting> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MyText(
-                                color: white,
+                                color: themeProvider.getTextColor(),
                                 text: "changelanguage",
                                 multilanguage: true,
                                 textalign: TextAlign.start,
@@ -816,7 +817,7 @@ class SettingState extends State<Setting> {
                               ),
                               const SizedBox(height: 3),
                               MyText(
-                                color: white,
+                                color: themeProvider.getTextColor(),
                                 text: "selectyourlanguage",
                                 fontsizeWeb: 12,
                                 multilanguage: true,
@@ -1010,6 +1011,7 @@ class SettingState extends State<Setting> {
     required String langName,
     required Function() onClick,
   }) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return InkWell(
       onTap: onClick,
       borderRadius: BorderRadius.circular(5),
@@ -1025,11 +1027,11 @@ class SettingState extends State<Setting> {
             color: primaryLight,
             width: .5,
           ),
-          color: colorPrimaryDark,
+          color: themeProvider.getBackgroundColor(),
           borderRadius: BorderRadius.circular(5),
         ),
         child: MyText(
-          color: white,
+          color: themeProvider.getTextColor(),
           text: langName,
           textalign: TextAlign.center,
           fontsizeNormal: 16,
@@ -1045,9 +1047,10 @@ class SettingState extends State<Setting> {
   }
 
   logoutConfirmDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.getBackgroundColor(),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -1060,7 +1063,7 @@ class SettingState extends State<Setting> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(23),
-              color: lightBlack,
+              color: themeProvider.getBackgroundColor(),
               child: Column(
                 children: [
                   Container(
@@ -1070,7 +1073,7 @@ class SettingState extends State<Setting> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "confirmsognout",
                           fontsizeWeb: 15,
                           multilanguage: true,
@@ -1083,7 +1086,7 @@ class SettingState extends State<Setting> {
                         ),
                         const SizedBox(height: 3),
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "areyousurewanrtosignout",
                           fontsizeWeb: 12,
                           multilanguage: true,
@@ -1170,9 +1173,10 @@ class SettingState extends State<Setting> {
   }
 
   deleteConfirmDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.getBackgroundColor(),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -1185,7 +1189,7 @@ class SettingState extends State<Setting> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(23),
-              color: lightBlack,
+              color: themeProvider.getBackgroundColor(),
               child: Column(
                 children: [
                   Container(
@@ -1195,7 +1199,7 @@ class SettingState extends State<Setting> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "confirm_delete_account",
                           fontsizeWeb: 15,
                           multilanguage: true,
@@ -1208,7 +1212,7 @@ class SettingState extends State<Setting> {
                         ),
                         const SizedBox(height: 3),
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "delete_account_msg",
                           multilanguage: true,
                           fontsizeWeb: 12,
@@ -1309,7 +1313,7 @@ class SettingState extends State<Setting> {
             5,
             0.5),
         child: MyText(
-          color: isPositive ? black : white,
+          color: isPositive ? black : themeProvider.getTextColor(),
           text: title,
           multilanguage: isMultilang,
           textalign: TextAlign.center,

@@ -2,6 +2,7 @@ import 'package:dtpocketfm/pages/authorprofile.dart';
 import 'package:dtpocketfm/pages/newthread.dart';
 import 'package:dtpocketfm/pages/profile.dart';
 import 'package:dtpocketfm/provider/profileprovider.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/provider/threadprovider.dart';
 import 'package:dtpocketfm/shimmer/shimmerwidget.dart';
 import 'package:dtpocketfm/utils/color.dart';
@@ -154,12 +155,13 @@ class _ThreadsState extends State<Threads> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: darkappbgcolor,
+      backgroundColor: themeProvider.getBackgroundColor(),
       appBar: AppBar(
         toolbarHeight: 65,
-        backgroundColor: darkappbgcolor,
+        backgroundColor: themeProvider.getBackgroundColor(),
         leading: Consumer<ProfileProvider>(
           builder: (context, value, child) {
             return InkWell(
@@ -207,7 +209,7 @@ class _ThreadsState extends State<Threads> {
             highlightColor: transparentColor,
             child: MyText(
               multilanguage: true,
-              color: white,
+              color: themeProvider.getTextColor(),
               text: "threads",
               fontsizeNormal: 15,
               fontweight: FontWeight.w600,
@@ -242,7 +244,7 @@ class _ThreadsState extends State<Threads> {
       ),
       body: RefreshIndicator(
         displacement: 50,
-        backgroundColor: white,
+        backgroundColor: themeProvider.getBackgroundColor(),
         color: primaryDark,
         strokeWidth: 3,
         triggerMode: RefreshIndicatorTriggerMode.onEdge,
@@ -352,7 +354,7 @@ class _ThreadsState extends State<Threads> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             MyText(
-                              color: white,
+                              color: themeProvider.getTextColor(),
                               maxline: 1,
                               overflow: TextOverflow.ellipsis,
                               multilanguage: false,
@@ -410,9 +412,9 @@ class _ThreadsState extends State<Threads> {
                             const SizedBox(
                               width: 10,
                             ),
-                            const Icon(
+                            Icon(
                               Icons.more_horiz_outlined,
-                              color: white,
+                              color: themeProvider.getTextColor(),
                               size: 30,
                             )
                           ],
@@ -441,7 +443,7 @@ class _ThreadsState extends State<Threads> {
                             Container(
                               height: 35,
                               width: 35,
-                              color: appBgColor,
+                              color: themeProvider.getBackgroundColor(),
                             ),
                             Positioned(
                               top: 0,
@@ -563,7 +565,7 @@ class _ThreadsState extends State<Threads> {
                                                 .threadslist?[index].isLike ==
                                             1
                                         ? primaryDark
-                                        : white,
+                                        : themeProvider.getTextColor(),
                                     size: 30,
                                   ),
                                 ),
@@ -656,7 +658,9 @@ class _ThreadsState extends State<Threads> {
   }
 
   openBottomSheet(int index, thredid) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     showModalBottomSheet(
+        backgroundColor: themeProvider.getBackgroundColor(),
         enableDrag: true,
         isScrollControlled: true,
         context: context,
@@ -732,7 +736,8 @@ class _ThreadsState extends State<Threads> {
                                                 MyText(
                                                     fontsizeNormal: 15,
                                                     fontweight: FontWeight.w600,
-                                                    color: colorPrimaryDark,
+                                                    color: themeProvider
+                                                        .getTextColor(),
                                                     text: (commentlistprovider
                                                                         .commentlist?[
                                                                             index]
@@ -764,7 +769,8 @@ class _ThreadsState extends State<Threads> {
                                                 MyText(
                                                     fontsizeNormal: 15,
                                                     fontweight: FontWeight.w500,
-                                                    color: colorPrimaryDark,
+                                                    color: themeProvider
+                                                        .getTextColor(),
                                                     text: commentlistprovider
                                                             .commentlist?[index]
                                                             .comment
@@ -949,7 +955,7 @@ class _ThreadsState extends State<Threads> {
                                           child:
                                               NoData(title: '', subTitle: '')),
                                       MyText(
-                                        color: black,
+                                        color: themeProvider.getTextColor(),
                                         text: "nodata",
                                         fontsizeNormal: 16,
                                         fontsizeWeb: 12,
@@ -1004,29 +1010,30 @@ class _ThreadsState extends State<Threads> {
                             controller: commentController,
                             textInputAction: TextInputAction.next,
                             cursorColor: black,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               filled: true,
-                              fillColor: white,
-                              contentPadding: EdgeInsets.only(left: 10.0),
-                              focusedBorder: OutlineInputBorder(
+                              fillColor: themeProvider.getBackgroundColor(),
+                              contentPadding:
+                                  const EdgeInsets.only(left: 10.0),
+                              focusedBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),
                                 borderSide:
                                     BorderSide(width: 1, color: colorPrimary),
                               ),
-                              disabledBorder: OutlineInputBorder(
+                              disabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),
                                 borderSide:
                                     BorderSide(width: 1, color: colorPrimary),
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),
                                 borderSide:
                                     BorderSide(width: 1, color: colorPrimary),
                               ),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(7)),
                                   borderSide: BorderSide(
@@ -1138,7 +1145,9 @@ class _ThreadsState extends State<Threads> {
                         padding: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            border: Border.all(width: 1, color: white)),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: themeProvider.getTextColor())),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: MyNetworkImage(
@@ -1154,7 +1163,7 @@ class _ThreadsState extends State<Threads> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           MyText(
-                              color: colorPrimaryDark,
+                              color: themeProvider.getTextColor(),
                               text: commentUsername,
                               fontsizeNormal: Dimens.textMedium,
                               fontweight: FontWeight.w500,
@@ -1166,7 +1175,7 @@ class _ThreadsState extends State<Threads> {
                               fontstyle: FontStyle.normal),
                           const SizedBox(height: 5),
                           MyText(
-                              color: colorPrimaryDark,
+                              color: themeProvider.getTextColor(),
                               text: comment,
                               fontsizeNormal: Dimens.textSmall,
                               fontweight: FontWeight.w400,
@@ -1249,7 +1258,8 @@ class _ThreadsState extends State<Threads> {
                                                         fontsizeNormal: 15,
                                                         fontweight:
                                                             FontWeight.w600,
-                                                        color: colorPrimaryDark,
+                                                        color: themeProvider
+                                                            .getTextColor(),
                                                         text: (threadProvider
                                                                             .replycommentlist?[
                                                                                 index]
@@ -1291,7 +1301,8 @@ class _ThreadsState extends State<Threads> {
                                                                   FontWeight
                                                                       .w500,
                                                               color:
-                                                                  colorPrimaryDark,
+                                                                   themeProvider
+                                                                       .getTextColor(),
                                                               text: threadProvider
                                                                       .replycommentlist?[
                                                                           index]
@@ -1420,7 +1431,7 @@ class _ThreadsState extends State<Threads> {
                                           child:
                                               NoData(title: '', subTitle: '')),
                                       MyText(
-                                        color: black,
+                                        color: themeProvider.getTextColor(),
                                         text: "nodata",
                                         fontsizeNormal: 16,
                                         fontsizeWeb: 12,
@@ -1478,11 +1489,12 @@ class _ThreadsState extends State<Threads> {
                             controller: commentController,
                             textInputAction: TextInputAction.next,
                             cursorColor: black,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               filled: true,
-                              fillColor: white,
-                              contentPadding: EdgeInsets.only(left: 10.0),
-                              focusedBorder: OutlineInputBorder(
+                              fillColor: themeProvider.getBackgroundColor(),
+                              contentPadding:
+                                  const EdgeInsets.only(left: 10.0),
+                              focusedBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(7)),
                                 borderSide:
@@ -2032,10 +2044,11 @@ class _ThreadsState extends State<Threads> {
               // padding: const EdgeInsets.all(20),
               height: 250,
               width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   border: Border(
-                      top: BorderSide(color: gray, width: 0.5),
-                      bottom: BorderSide(color: white, width: 0.5))),
+                      top: const BorderSide(color: gray, width: 0.5),
+                      bottom: BorderSide(
+                          color: themeProvider.getTextColor(), width: 0.5))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -2043,7 +2056,7 @@ class _ThreadsState extends State<Threads> {
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: MyText(
                       multilanguage: true,
-                      color: white,
+                      color: themeProvider.getTextColor(),
                       text: "suggest_for_you",
                       fontsizeNormal: 15,
                       fontweight: FontWeight.w500,
@@ -2078,7 +2091,7 @@ class _ThreadsState extends State<Threads> {
                             width: 154,
                             decoration: BoxDecoration(
                                 border: Border.all(width: 0.5, color: gray),
-                                color: appBgColor,
+                                color: themeProvider.getBackgroundColor(),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -2106,7 +2119,7 @@ class _ThreadsState extends State<Threads> {
                                 MyText(
                                   textalign: TextAlign.center,
                                   maxline: 2,
-                                  color: white,
+                                  color: themeProvider.getTextColor(),
                                   text: threadDataProvider
                                           .suggestartistProfileModel
                                           .result?[index]
@@ -2149,7 +2162,7 @@ class _ThreadsState extends State<Threads> {
                                       borderRadius: BorderRadius.circular(38),
                                     ),
                                     child: MyText(
-                                      color: white,
+                                      color: themeProvider.getTextColor(),
                                       multilanguage: true,
                                       text: threadDataProvider
                                                   .suggestartistProfileModel
@@ -2190,10 +2203,11 @@ class _ThreadsState extends State<Threads> {
     return Container(
       height: 250,
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           border: Border(
-              top: BorderSide(color: gray, width: 0.5),
-              bottom: BorderSide(color: white, width: 0.5))),
+              top: const BorderSide(color: gray, width: 0.5),
+              bottom:
+                  BorderSide(color: themeProvider.getTextColor(), width: 0.5))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

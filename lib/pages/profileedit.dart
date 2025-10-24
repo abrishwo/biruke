@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'dart:io';
+
 import 'package:dtpocketfm/pages/profileavatar.dart';
+import 'package:dtpocketfm/provider/themeprovider.dart';
 import 'package:dtpocketfm/utils/dimens.dart';
 import 'package:dtpocketfm/widget/myimage.dart';
 import 'package:dtpocketfm/widget/myusernetworkimg.dart';
@@ -89,8 +92,9 @@ class ProfileEditState extends State<ProfileEdit> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: themeProvider.getBackgroundColor(),
       appBar: Utils.myAppBarWithBack(context, "editprofile", true, true),
       body: SafeArea(
         child: SizedBox(
@@ -106,7 +110,7 @@ class ProfileEditState extends State<ProfileEdit> {
                   builder: (context, value, child) {
                     return Column(children: [
                       Container(
-                        color: appBgColor,
+                        color: themeProvider.getBackgroundColor(),
                         height: 130,
                         width: MediaQuery.of(context).size.width,
                         child: pickedImageFile != null
@@ -222,7 +226,7 @@ class ProfileEditState extends State<ProfileEdit> {
                             fontweight: FontWeight.w500,
                             fontstyle: FontStyle.normal,
                             textalign: TextAlign.center,
-                            color: primaryDark,
+                            color: themeProvider.getTextColor(),
                           ),
                           MyText(
                             text: profileProvider.profileModel.result?[0].email
@@ -236,7 +240,7 @@ class ProfileEditState extends State<ProfileEdit> {
                             fontweight: FontWeight.w500,
                             fontstyle: FontStyle.normal,
                             textalign: TextAlign.center,
-                            color: otherColor,
+                            color: themeProvider.getTextColor(),
                           ),
                         ],
                       ),
@@ -272,7 +276,7 @@ class ProfileEditState extends State<ProfileEdit> {
             fontweight: FontWeight.w500,
             fontstyle: FontStyle.normal,
             textalign: TextAlign.center,
-            color: white,
+            color: themeProvider.getTextColor(),
           ),
           const SizedBox(height: 10),
           Container(
@@ -280,7 +284,7 @@ class ProfileEditState extends State<ProfileEdit> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             // decoration: Utils.textFieldBGWithBorder(),
             decoration: BoxDecoration(
-              // color: white,
+              color: themeProvider.getBackgroundColor(),
               border: Border.all(
                 color: otherColor,
                 width: .2,
@@ -295,8 +299,8 @@ class ProfileEditState extends State<ProfileEdit> {
               mController: nameController,
               mObscureText: false,
               mMaxLine: 1,
-              mHintTextColor: white,
-              mTextColor: white,
+              mHintTextColor: themeProvider.getTextColor(),
+              mTextColor: themeProvider.getTextColor(),
               mkeyboardType: TextInputType.name,
               mTextInputAction: TextInputAction.done,
               mInputBorder: InputBorder.none,
@@ -317,7 +321,7 @@ class ProfileEditState extends State<ProfileEdit> {
             fontweight: FontWeight.w500,
             fontstyle: FontStyle.normal,
             textalign: TextAlign.center,
-            color: white,
+            color: themeProvider.getTextColor(),
           ),
           const SizedBox(height: 10),
           Container(
@@ -325,7 +329,7 @@ class ProfileEditState extends State<ProfileEdit> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             // decoration: Utils.textFieldBGWithBorder(),
             decoration: BoxDecoration(
-              // color: white,
+              color: themeProvider.getBackgroundColor(),
               border: Border.all(
                 color: otherColor,
                 width: .2,
@@ -340,8 +344,8 @@ class ProfileEditState extends State<ProfileEdit> {
               mController: emailController,
               mObscureText: false,
               mMaxLine: 1,
-              mHintTextColor: otherColor,
-              mTextColor: white,
+              mHintTextColor: themeProvider.getTextColor(),
+              mTextColor: themeProvider.getTextColor(),
               mkeyboardType: TextInputType.name,
               mTextInputAction: TextInputAction.done,
               mInputBorder: InputBorder.none,
@@ -362,7 +366,7 @@ class ProfileEditState extends State<ProfileEdit> {
             fontweight: FontWeight.w500,
             fontstyle: FontStyle.normal,
             textalign: TextAlign.center,
-            color: white,
+            color: themeProvider.getTextColor(),
           ),
           const SizedBox(height: 10),
           Container(
@@ -370,7 +374,7 @@ class ProfileEditState extends State<ProfileEdit> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             // decoration: Utils.textFieldBGWithBorder(),
             decoration: BoxDecoration(
-              // color: white,
+              color: themeProvider.getBackgroundColor(),
               border: Border.all(
                 color: otherColor,
                 width: .2,
@@ -385,8 +389,8 @@ class ProfileEditState extends State<ProfileEdit> {
               mController: mobilenumberController,
               mObscureText: false,
               mMaxLine: 1,
-              mHintTextColor: otherColor,
-              mTextColor: white,
+              mHintTextColor: themeProvider.getTextColor(),
+              mTextColor: themeProvider.getTextColor(),
               mkeyboardType: TextInputType.name,
               mTextInputAction: TextInputAction.done,
               mInputBorder: InputBorder.none,
@@ -407,7 +411,7 @@ class ProfileEditState extends State<ProfileEdit> {
             fontweight: FontWeight.w500,
             fontstyle: FontStyle.normal,
             textalign: TextAlign.center,
-            color: white,
+            color: themeProvider.getTextColor(),
           ),
           const SizedBox(height: 10),
           Container(
@@ -415,7 +419,7 @@ class ProfileEditState extends State<ProfileEdit> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             // decoration: Utils.textFieldBGWithBorder(),
             decoration: BoxDecoration(
-              // color: white,
+              color: themeProvider.getBackgroundColor(),
               border: Border.all(
                 color: otherColor,
                 width: .2,
@@ -429,8 +433,8 @@ class ProfileEditState extends State<ProfileEdit> {
               mController: bioController,
               mObscureText: false,
               mMaxLine: 1,
-              mHintTextColor: otherColor,
-              mTextColor: white,
+              mHintTextColor: themeProvider.getTextColor(),
+              mTextColor: themeProvider.getTextColor(),
               mkeyboardType: TextInputType.name,
               mTextInputAction: TextInputAction.done,
               mInputBorder: InputBorder.none,
@@ -498,7 +502,7 @@ class ProfileEditState extends State<ProfileEdit> {
                 ),
                 alignment: Alignment.center,
                 child: MyText(
-                  color: white,
+                  color: themeProvider.getTextColor(),
                   text: "save",
                   multilanguage: true,
                   textalign: TextAlign.center,
@@ -518,9 +522,10 @@ class ProfileEditState extends State<ProfileEdit> {
   }
 
   void pickImageDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     showModalBottomSheet(
       context: context,
-      backgroundColor: lightBlack,
+      backgroundColor: themeProvider.getBackgroundColor(),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -533,7 +538,7 @@ class ProfileEditState extends State<ProfileEdit> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(23),
-              color: lightBlack,
+              color: themeProvider.getBackgroundColor(),
               child: Column(
                 children: [
                   Container(
@@ -543,7 +548,7 @@ class ProfileEditState extends State<ProfileEdit> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: "addphoto",
                           textalign: TextAlign.center,
                           fontsizeNormal: 16,
@@ -555,7 +560,7 @@ class ProfileEditState extends State<ProfileEdit> {
                         ),
                         const SizedBox(height: 3),
                         MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           multilanguage: true,
                           text: "pickimagenote",
                           textalign: TextAlign.center,
@@ -593,7 +598,7 @@ class ProfileEditState extends State<ProfileEdit> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: MyText(
-                        color: white,
+                        color: themeProvider.getTextColor(),
                         text: "takephoto",
                         textalign: TextAlign.center,
                         fontsizeNormal: 16,
@@ -632,7 +637,7 @@ class ProfileEditState extends State<ProfileEdit> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: MyText(
-                        color: white,
+                        color: themeProvider.getTextColor(),
                         text: "choosegallry",
                         textalign: TextAlign.center,
                         fontsizeNormal: 16,
@@ -671,7 +676,7 @@ class ProfileEditState extends State<ProfileEdit> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: MyText(
-                        color: white,
+                        color: themeProvider.getTextColor(),
                         text: "chooseanavatar",
                         textalign: TextAlign.center,
                         fontsizeNormal: 16,
@@ -709,7 +714,7 @@ class ProfileEditState extends State<ProfileEdit> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: MyText(
-                          color: white,
+                          color: themeProvider.getTextColor(),
                           text: cancel,
                           textalign: TextAlign.center,
                           fontsizeNormal: 16,
