@@ -348,11 +348,14 @@ class NovelController extends Controller
 
             $files = $requestData['image'];
             $requestData['image'] = $this->common->saveImage($files, $this->folder);
-            $requestData['audio_type'] = 0;
-            $requestData['audio'] = "";
+
+            if ($requestData['audio_type'] == 2) {
+                $requestData['audio'] = $requestData['audio_url'];
+            }
+            if ($requestData['is_audio_paid'] == 0) {
+                $requestData['is_audio_coin'] = 0;
+            }
             $requestData['audio_duration'] = 0;
-            $requestData['is_audio_paid'] = 0;
-            $requestData['is_audio_coin'] = 0;
             $requestData['total_audio_played'] = 0;
             $requestData['video_type'] = 0;
             $requestData['video'] = "";
@@ -437,7 +440,22 @@ class NovelController extends Controller
             if ($requestData['is_book_paid'] == 0) {
                 $requestData['is_book_coin'] = 0;
             }
-            unset($requestData['old_image'], $requestData['old_book']);
+
+            if ($requestData['audio_type'] == 2) {
+                $requestData['audio'] = $requestData['audio_url'];
+                $this->common->deleteImageToFolder($this->folder, basename($requestData['old_audio']));
+            } else {
+                if ($requestData['audio'] && $requestData['audio'] != null && isset($requestData['audio'])) {
+                    $requestData['audio'] = $requestData['audio'];
+                    $this->common->deleteImageToFolder($this->folder, basename($requestData['old_audio']));
+                } else {
+                    $requestData['audio'] = basename($requestData['old_audio']);
+                }
+            }
+            if ($requestData['is_audio_paid'] == 0) {
+                $requestData['is_audio_coin'] = 0;
+            }
+            unset($requestData['old_image'], $requestData['old_book'], $requestData['old_audio']);
 
             $episode_data = Content_Episode::updateOrCreate(['id' => $requestData['id']], $requestData);
             if (isset($episode_data->id)) {
@@ -458,6 +476,7 @@ class NovelController extends Controller
 
                 $this->common->deleteImageToFolder($this->folder, $data['image']);
                 $this->common->deleteImageToFolder($this->folder, $data['book']);
+                $this->common->deleteImageToFolder($this->folder, $data['audio']);
                 $data->delete();
 
                 Content_Play::where('content_type', 2)->where('content_id', $podcasts_id)->where('content_episode_id', $id)->delete();

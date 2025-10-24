@@ -31,6 +31,7 @@
                     <input type="hidden" name="content_id" value="@if($data){{$data->content_id}}@endif">
                     <input type="hidden" name="old_image" value="@if($data){{$data->image}}@endif">
                     <input type="hidden" name="old_book" value="@if($data){{$data->book}}@endif">
+                    <input type="hidden" name="old_audio" value="@if($data){{$data->audio}}@endif">
                     <div class="form-row">
                         <div class="col-md-9">
                             <div class="form-row">
@@ -63,6 +64,61 @@
                                     </div>
                                 </div>
                                 <label class="mt-3 text-gray">Maximum size 2MB.</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Audio Type</label>
+                                <select name="audio_type" class="form-control">
+                                    <option value="1" {{ $data->audio_type == 1 ? 'selected' : ''}}>File Upload</option>
+                                    <option value="2" {{ $data->audio_type == 2 ? 'selected' : ''}}>URL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group Url_Link">
+                                <label>Url</label>
+                                <input type="url" name="audio_url" value="@if($data){{$data->audio}}@endif" class="form-control" placeholder="Enter Url">
+                            </div>
+                            <div class="form-group File_Upload" style="display: block;">
+                                <label>Upload Audio</label>
+                                <div id="filelist4"></div>
+                                <div id="container4" style="position: relative;">
+                                    <div class="form-group">
+                                        <input type="file" id="uploadFile4" name="uploadFile4" class="form-control import-file p-2">
+                                    </div>
+                                    <input type="hidden" name="audio" id="mp3_file_name4" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-4 File_Upload">
+                            <div class="form-group mt-3">
+                                <a id="upload4" class="btn text-white" style="background-color:#4e45b8;">Upload Files</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Is Paid</label>
+                                <div class="radio-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="is_audio_paid" id="is_audio_paid_yes" class="custom-control-input" value="1" {{ $data->is_audio_paid == 1 ? 'checked' : ''}}>
+                                        <label class="custom-control-label" for="is_audio_paid_yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="is_audio_paid" id="is_audio_paid_no" class="custom-control-input" value="0" {{ $data->is_audio_paid == 0 ? 'checked' : ''}}>
+                                        <label class="custom-control-label" for="is_audio_paid_no">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 is_audio_coin">
+                            <div class="form-group">
+                                <label>Coin</label>
+                                <input type="number" name="is_audio_coin" class="form-control" placeholder="Enter Coin" min="0" value="{{$data->is_audio_coin}}">
                             </div>
                         </div>
                     </div>
@@ -137,6 +193,41 @@
                 }
                 else if (this.value == 0) {
                     $(".is_book_coin").hide();
+                }
+            });
+
+            // Audio
+            var is_audio_paid = "<?php echo $data->is_audio_paid; ?>";
+            if(is_audio_paid == 1){
+                $(".is_audio_coin").show();
+            } else {
+                $(".is_audio_coin").hide();
+            }
+            $('input[type=radio][name=is_audio_paid]').change(function() {
+                if (this.value == 1) {
+                    $(".is_audio_coin").show();
+                }
+                else if (this.value == 0) {
+                    $(".is_audio_coin").hide();
+                }
+            });
+
+            // Audio Type
+            var audio_type = "<?php echo $data->audio_type; ?>";
+            if(audio_type == 1){
+                $(".File_Upload").show();
+                $(".Url_Link").hide();
+            } else if(audio_type == 2) {
+                $(".File_Upload").hide();
+                $(".Url_Link").show();
+            }
+            $("select[name='audio_type']").change(function() {
+                if (this.value == 1) {
+                    $(".File_Upload").show();
+                    $(".Url_Link").hide();
+                } else if (this.value == 2) {
+                    $(".File_Upload").hide();
+                    $(".Url_Link").show();
                 }
             });
         });
